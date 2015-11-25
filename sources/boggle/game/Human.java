@@ -1,3 +1,4 @@
+package boggle.game;
 /**
  */
 public class Human implements Player {
