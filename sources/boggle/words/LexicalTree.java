@@ -1,6 +1,7 @@
 package boggle.words;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List ;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,7 +14,7 @@ import java.text.Normalizer;
 public class LexicalTree {
     public static final int ALPHABET_HEIGTH = 26 ;
     private boolean isWord ; // vrai si le noeud courant est la fin d'un mot valide
-    public LexicalTree[] sons = new LexicalTree[ALPHABET_HEIGTH] ; // les sous-arbres
+    private LexicalTree[] sons = new LexicalTree[ALPHABET_HEIGTH] ; // les sous-arbres
     
     /** Crée un arbre vide (sans aucun mot) */
     public LexicalTree() {
@@ -74,25 +75,30 @@ public class LexicalTree {
         // TODO: à compléter
     	//First step, find the prefix in the tree:
 		//Check if the tree contains the letter and go deeper into the three to find the prefix or return false if the prefix doesn't exist:
-    	if(prefix.length() < (level+1)) {
+    	if(prefix.length() >= (level+1)) {
     		if(sons[(int)(prefix.charAt(level)-'A')] != null) {
     			return sons[(int)(prefix.charAt(level)-'A')].wordsBeginningWith(prefix, result, (level+1));
     		}
         	return false;
     	}
     	
-    	//Second step, fill the list with words beginning with the prefix
-    	if(prefix.length() == (level+1)) {
-        	//Search for all the words :
-    		
-    		
+    	//Second step, fill the list with words beginning with the prefix:
+    	List<String> list = new ArrayList<String>(result);
+    	listWords(prefix,result,level);
+    	
+    	//Then return if the list has been modified:
+    	return !list.equals(result);
+    }
+    
+    private void listWords(String prefix, List<String> result, int level) {
+    	//If it's a word, add it to the list
+    	if(isWord()) 
+    		result.add(prefix);
+    	//Then do it recursivly for all the sons
+    	for(int i = 0; i < 26; i++) {
+    		if(sons[i] != null)
+    			sons[i].listWords((prefix+(char)(i+'A')),result,level+1);
     	}
-    	else
-    	{
-    		//
-    		
-    	}
-    	return false;
     }
     
     /** Crée un arbre lexical qui contient tous les mots du fichier
@@ -137,7 +143,6 @@ public class LexicalTree {
     			System.out.println(ex.getMessage());
     		}
     	}
-    	
         return tree;
     }
     
@@ -146,14 +151,14 @@ public class LexicalTree {
     	
     	//Test WordsBeginningWith :
     	List<String> result = new ArrayList<String>();
-    	System.out.println("Test WordsBeginningWith : \"anti\"");
-    	tree.wordsBeginningWith("anti", result);
-    	for(String elem: result) {
-    		System.out.println("Element :" + elem);
-    	}
+    	System.out.println("Test WordsBeginningWith : \"anticonst\"");
+    	System.out.println("Est-ce qu'il y a des mots commençant par anticonst ? ( ou: Liste modifiée ?) "+tree.wordsBeginningWith("anticonst", result));
     	
-    	//Faits et vérifiés : readWords, add, contains.
-    	//TODO : wordsBeginningWith.
+    	System.out.println("Liste des mots :");
+    	for(String elem : result)
+    		System.out.println(elem);
+    	
+    	//Faits et vérifiés : readWords, add, contains, wordsBeginningBy.
     }
     
 }
