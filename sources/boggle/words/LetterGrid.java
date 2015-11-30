@@ -1,10 +1,10 @@
 package boggle.words;
 
-public class LettersGrid {
+public class LetterGrid {
 	private Letter[][] grid;
 	private int size;
 	
-	LettersGrid(int size) {
+	LetterGrid(int size) {
 		this.size = size;
 		init();
 		//TODO : 
