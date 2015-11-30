@@ -136,21 +136,5 @@ public class LexicalTree {
     		}
     	}
         return tree;
-    }
-    
-    public static void main(String[] args) {
-    	LexicalTree tree = LexicalTree.readWords("config/dict-fr.txt");
-    	
-    	//Test WordsBeginningWith :
-    	List<String> result = new ArrayList<String>();
-    	System.out.println("Test WordsBeginningWith : \"anticonst\"");
-    	System.out.println("Est-ce qu'il y a des mots commençant par anticonst ? ( ou: Liste modifiée ?) "+tree.wordsBeginningWith("anticonst", result));
-    	
-    	System.out.println("Liste des mots :");
-    	for(String elem : result)
-    		System.out.println(elem);
-    	
-    	//Faits et vérifiés : readWords, add, contains, wordsBeginningBy.
-    }
-    
+    }    
 }

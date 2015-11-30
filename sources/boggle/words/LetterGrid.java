@@ -7,11 +7,11 @@ public class LetterGrid {
 	LetterGrid(int size) {
 		this.size = size;
 		grid = new Letter[size][size];
-		init();
+		init("config/des-4x4.csv");
 	}
 	
-	public boolean init() {
-		Dice dice = Dice.readCSV("config/des-4x4.csv");
+	public boolean init(String path) {
+		Dice dice = Dice.readCSV(path);
 		for (int i = 0; i < grid.length; i ++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				grid[i][j] = new Letter(dice.getRandomValue(i, j));
@@ -33,17 +33,5 @@ public class LetterGrid {
 	
 	public Letter getLetter(int x, int y) {
 		return getGrid()[x][y];
-	}
-	
-	//-------------------------------------------
-	public static void main(String[] args) {
-		LetterGrid l = new LetterGrid(4);
-		Letter[][] grid = l.getGrid();
-		for (int i = 0; i < grid.length; i ++) {
-			for (int j = 0; j < grid[i].length; j++) {
-				System.out.print(grid[i][j].getCharacter());
-			}
-			System.out.println();
-		}
 	}
 }
