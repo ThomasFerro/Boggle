@@ -72,7 +72,6 @@ public class LexicalTree {
     }
     
     private boolean wordsBeginningWith(String prefix, List<String> result, int level) {
-        // TODO: à compléter
     	//First step, find the prefix in the tree:
 		//Check if the tree contains the letter and go deeper into the three to find the prefix or return false if the prefix doesn't exist:
     	if(prefix.length() >= (level+1)) {
@@ -107,8 +106,6 @@ public class LexicalTree {
 
     	LexicalTree tree = new LexicalTree();
     	
-    	boolean valid;
-    	
     	//Read the file with BufferedReader : 
     	BufferedReader br = null;
     	
@@ -121,13 +118,8 @@ public class LexicalTree {
         		//Normalizer : remove all accents.
         		currentLine = Normalizer.normalize(currentLine.toUpperCase(),Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
         		
-        		//Check if the word if valid :
-        		valid = true;
-        		for(int i = 0; i < currentLine.length(); i++)
-        			if(((int)(currentLine.charAt(i)-'A') < 0) || ((int)(currentLine.charAt(i)-'A') > 25)) 
-        				valid = false;
-        		//Add the word to the lexical tree:
-        		if(valid) 
+        		//Check if the word if valid and add the word to the lexical tree:
+        		if(currentLine.matches("[A-Z]+")) 
         			tree.add(currentLine,0);
         	}
     	}
