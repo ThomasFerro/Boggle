@@ -4,10 +4,10 @@ public class LetterGrid {
 	private Letter[][] grid;
 	private int size;
 	
-	LetterGrid(int size) {
+	public LetterGrid(int size, String path) {
 		this.size = size;
 		grid = new Letter[size][size];
-		init("config/des-4x4.csv");
+		init(path);
 	}
 	
 	public boolean init(String path) {

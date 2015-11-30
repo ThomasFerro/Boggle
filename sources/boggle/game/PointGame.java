@@ -17,7 +17,7 @@ public class PointGame extends Game {
 	}
 
 	@Override
-	boolean isFinished() {
+	protected boolean isFinished() {
 		for(Player player : getPlayers()) {
 			if(player.getScore() >= MAX_POINTS)
 				return true;

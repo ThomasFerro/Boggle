@@ -17,7 +17,7 @@ public class RoundGame extends Game {
 	}
 
 	@Override
-	boolean isFinished() {
+	protected boolean isFinished() {
 		return !(this.getRound() < MAX_ROUNDS);
 	}
 

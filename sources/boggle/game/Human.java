@@ -6,8 +6,8 @@ public class Human implements Player {
     private int score;
     
     public Human(String name) {
-	this.name = name;
-	this.score = 0;
+		this.name = name;
+		this.score = 0;
     }
 
     //Player + Entity's methods
