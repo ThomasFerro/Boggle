@@ -1,18 +1,17 @@
 package boggle.words;
 
-public class LettersGrid {
+public class LetterGrid {
 	private Letter[][] grid;
 	private int size;
 	
-	LettersGrid(int size) {
+	LetterGrid(int size) {
 		this.size = size;
 		grid = new Letter[size][size];
 		init();
-		//TODO : 
 	}
 	
 	public boolean init() {
-		Dice dice = new Dice(size, "config/des-4x4.csv");
+		Dice dice = Dice.readCSV("config/des-4x4.csv");
 		for (int i = 0; i < grid.length; i ++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				grid[i][j] = new Letter(dice.getRandomValue(i, j));
@@ -20,7 +19,6 @@ public class LettersGrid {
 		}
 		return true;
 	}
-	
 	
 	//-------------------------------------------
 	//Getters and Setters
@@ -39,7 +37,7 @@ public class LettersGrid {
 	
 	//-------------------------------------------
 	public static void main(String[] args) {
-		LettersGrid l = new LettersGrid(4);
+		LetterGrid l = new LetterGrid(4);
 		Letter[][] grid = l.getGrid();
 		for (int i = 0; i < grid.length; i ++) {
 			for (int j = 0; j < grid[i].length; j++) {

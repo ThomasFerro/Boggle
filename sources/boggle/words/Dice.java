@@ -4,64 +4,53 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Dice {
 
-	private char[][] elements;
+	private List<List> element;
 	private int size;
 
-	public Dice(int size, String pathDice) {
-		this.size = size;
-		elements = new char[size*size][6];
-		initElements(pathDice);
+	public Dice() {
+		element = new ArrayList<List>();
 	}
-
-	public void initElements(String pathDice) {
+	
+	public static Dice readCSV(String path) {
+		Dice d = new Dice();
+		
 		try {
-			BufferedReader fichier_source = new BufferedReader(new FileReader(
-					pathDice));
-			String ligne;
-			int i = 0;
-			while ((ligne = fichier_source.readLine()) != null) {
-				String[] tabChaine = ligne.split(";");			//On decoupe la ligne
-				for (int j = 0; j < elements[0].length; j++) {	
-					elements[i][j] = tabChaine[j].charAt(0);	//On range dans chaque ligne du tableau elements
-				}
-				i++;
+			BufferedReader file = new BufferedReader(new FileReader(path));
+			String line;
+			while ((line = file.readLine()) != null) {
+				String [] tabChaine = line.split(";");
+				d.getElement().add(Arrays.asList(tabChaine));
 			}
-			fichier_source.close();
+			file.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return d;
 	}
 	
-	public char [][] getElements() {
-		return elements;
+	public List getElement() {
+		return element;
 	}
 	
-	public void elementsToString() {
-		for (int i = 0; i < elements.length; i++) {
-			System.out.print(i + "\t");
-			for (int j = 0; j < elements[i].length; j++) {
-				System.out.print(elements[i][j] + " ");
-			}
-			System.out.print("\n");
-		}
-	}
-
 	public char getRandomValue(int x, int y) {
 		Random r = new Random();
 		int indice = x + (y * size);
 		int random = r.nextInt(6);
-		return elements[indice][random];
+		return ((String) element.get(indice).get(random)).charAt(0);
 	}
 	
-	/*public static void main(String[] args) {
-		Dice d = new Dice (4, "config/des-4x4.csv");
-		d.elementsToString();
-		System.out.println(d.getRandomValue(0, 0));
-	}*/
+	public static void main(String[] args) {
+		Dice d = Dice.readCSV("config/des-4x4.csv");
+		System.out.println(d.getElement());
+		System.out.println(d.getRandomValue(0,0));
+	}
 }
