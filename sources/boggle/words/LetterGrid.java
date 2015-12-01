@@ -3,6 +3,7 @@ package boggle.words;
 public class LetterGrid {
 	private Letter[][] grid;
 	private int size;
+	private Dice dice;
 	
 	public LetterGrid(int size, String path) {
 		this.size = size;
@@ -11,7 +12,15 @@ public class LetterGrid {
 	}
 	
 	public boolean init(String path) {
-		Dice dice = Dice.readCSV(path);
+		dice = Dice.readCSV(path);
+		shake();
+		return true;
+	}
+	
+	public boolean shake() {
+		if(dice == null)
+			return false;
+		
 		for (int i = 0; i < grid.length; i ++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				grid[i][j] = new Letter(dice.getRandomValue(i, j));
