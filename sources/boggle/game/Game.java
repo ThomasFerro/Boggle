@@ -3,6 +3,8 @@ package boggle.game;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import boggle.words.LetterGrid;
@@ -17,10 +19,13 @@ public abstract class Game {
 	//TODO
 	private int round;
 	private Player[] players;
+	private Player currentPlayer;
 	private LetterGrid grid;
 	private LexicalTree tree;
 	private int minSize;
 	private int[] pointGrid;
+	private String gridPath;
+	private String treePath;
 
 	Game(Player[] players, File config) {
 		this.players = players;
@@ -47,19 +52,19 @@ public abstract class Game {
 			for(int i = 0; i < tab.length; i++) {
 				pointGrid[i] = Integer.parseInt(tab[i]);
 			}
-			
+
 			//Des :
 			try {
-				grid = new LetterGrid(minSize+1,"config/"+props.getProperty("des"));
+				gridPath = "config/"+props.getProperty("des");
 			}
 			catch(Exception ex) {
 				System.out.println("Error : Grid/Dice load");
 			}
-			
+
 			//Dictionnaire :
 			try
 			{
-				tree = LexicalTree.readWords("config/"+props.getProperty("dictionnaire"));
+				treePath = "config/"+props.getProperty("dictionnaire");
 			}
 			catch(Exception ex) {
 				System.out.println("Error : Dictionary load");
@@ -79,9 +84,11 @@ public abstract class Game {
 	}
 
 	private boolean launch() {
-		//TODO : Créer une grille et un dictionnaire puis lance le run
 		try {
-			//Créer le tout.
+			//Créer le LetterGrid :
+			grid = new LetterGrid(minSize+1,gridPath);
+			//Créer l'arbre:
+			tree = LexicalTree.readWords(treePath);
 		}
 		catch(Exception e) {
 			return false;
@@ -91,10 +98,50 @@ public abstract class Game {
 
 	protected void run() {
 		//TODO : Boucle tant que !isFinished(), passe au joueur suivant en début de boucle
+		do {
+			for(int i = 0; i < players.length; i++) {
+				//Shake de la grille:
+				grid.shake();
+
+				//Tour d'un joueur
+				currentPlayer = players[i];
+				currentPlayer.getWords().clear();
+
+				//TODO : Actions joueur
+
+				//Fin du tour
+				endTurn();
+			}
+		}while(!isFinished());
 	}
 
 	protected void endTurn() {
-		//TODO : Vérifie les mots et attribut les points
+		//Pour chaque mot de la liste
+		for(String word : currentPlayer.getWords()) {
+			//Vérifier la validité du mot :
+			if(tree.contains(word)) {
+				//Vérifier la valeur puis ajouter au score du joueur
+				currentPlayer.setScore(currentPlayer.getScore()+checkScore(word));
+			}
+		}
+	}
+
+	private int checkScore(String word) {
+		int sizeTab = pointGrid.length;
+
+		//On ne donne pas de point si le mot est plus petit que la taille minimum
+		//Si le mot est plus grand que le maximum de lettres, donner le maximum de points
+		//Sinon, on donne le nombre de points correspondants
+		
+		if(word.length() > minSize) {
+			if(word.length() >= sizeTab)
+				return pointGrid[sizeTab];
+			for(int i = 0; i < sizeTab; i++) {
+				if(word.length() == (minSize+i))
+					return pointGrid[i];
+			}
+		}	
+		return 0;
 	}
 
 	protected abstract boolean isFinished();
@@ -112,7 +159,7 @@ public abstract class Game {
 	public Player[] getPlayers() {
 		return players;
 	}
-	
+
 	public LetterGrid getGrid() {
 		return grid;
 	}
@@ -124,7 +171,11 @@ public abstract class Game {
 	public int[] getPointGrid() {
 		return pointGrid;
 	}
-	
+
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+
 	//-------------------------------------------
 
 	public static void main(String[] args) {
@@ -136,7 +187,7 @@ public abstract class Game {
 		Game game = new Game(players, new File("config/regles-4x4.config")) {
 			public boolean isFinished() { return true; }
 		};
-		
+
 	}
 
 }
