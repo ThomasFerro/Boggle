@@ -3,10 +3,10 @@ package boggle.game;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
+import java.util.Scanner;
 
+import boggle.words.Letter;
 import boggle.words.LetterGrid;
 import boggle.words.LexicalTree;
 
@@ -28,11 +28,10 @@ public abstract class Game {
 	private String treePath;
 
 	Game(Player[] players, File config) {
+		this.round = 0;
 		this.players = players;
 		loadConfigs(config);
-		if(launch())
-			run();
-		else
+		if(!launch())
 			System.out.println("Game initialization error");
 	}
 
@@ -97,20 +96,33 @@ public abstract class Game {
 	}
 
 	protected void run() {
-		//TODO : Boucle tant que !isFinished(), passe au joueur suivant en début de boucle
 		do {
+			this.round++;
 			for(int i = 0; i < players.length; i++) {
 				//Shake de la grille:
 				grid.shake();
-
+				
+				//A SUPPRIMER --------------------------------
+				Letter[][] lgrid = grid.getGrid();
+				for (int j = 0; j < lgrid.length; j ++) {
+					for (int k = 0; k < lgrid[j].length; k++) {
+						System.out.print(lgrid[j][k].getCharacter());
+					}
+					System.out.println();
+				}
+				// FIN A SUPPRIMER ---------------------------
+				
 				//Tour d'un joueur
 				currentPlayer = players[i];
 				currentPlayer.getWords().clear();
 
-				//TODO : Actions joueur
+				//Actions joueur
+				playerInput();
 
 				//Fin du tour
 				endTurn();
+
+				System.out.println("Player :"+ currentPlayer.getName() +"; Score :" +currentPlayer.getScore()+"\n");
 			}
 		}while(!isFinished());
 	}
@@ -128,20 +140,31 @@ public abstract class Game {
 
 	private int checkScore(String word) {
 		int sizeTab = pointGrid.length;
-
+		
 		//On ne donne pas de point si le mot est plus petit que la taille minimum
 		//Si le mot est plus grand que le maximum de lettres, donner le maximum de points
 		//Sinon, on donne le nombre de points correspondants
 		
-		if(word.length() > minSize) {
-			if(word.length() >= sizeTab)
-				return pointGrid[sizeTab];
+		if(word.length() >= minSize) {
+			if(word.length() >= sizeTab) 
+				return pointGrid[sizeTab-1];
 			for(int i = 0; i < sizeTab; i++) {
-				if(word.length() == (minSize+i))
+				if(word.length() == (minSize+i)) 
 					return pointGrid[i];
 			}
 		}	
 		return 0;
+	}
+	
+	private void playerInput() {
+		//Mode textuel : Attente entrée jusqu'à "Submit":
+		System.out.println(currentPlayer.getName()+": Enter your words :");
+		Scanner sc = new Scanner(System.in);
+		String mot = "";
+		do {
+			mot = sc.nextLine();
+			currentPlayer.addWord(mot);
+		}while(!mot.equalsIgnoreCase("SUBMIT"));
 	}
 
 	protected abstract boolean isFinished();
@@ -184,10 +207,7 @@ public abstract class Game {
 		players[0] = new Human("Billy");
 		players[1] = new Human("John");
 		players[2] = new Human("Oui");
-		Game game = new Game(players, new File("config/regles-4x4.config")) {
-			public boolean isFinished() { return true; }
-		};
-
+		Game game = new RoundGame(players, new File("config/regles-4x4.config"), 1);
 	}
 
 }
