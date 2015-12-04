@@ -28,7 +28,7 @@ public class LeftPanel extends JPanel {
 		this.setBackground(Color.GRAY);
 		this.add(panelCurrentPlayer, BorderLayout.NORTH);
 		this.add(panelScore, BorderLayout.CENTER);
-		this.setPreferredSize(new Dimension(230,300));
+		this.setPreferredSize(new Dimension(250,300));
 	}
 
 	public JLabel getCurrentPlayer() {

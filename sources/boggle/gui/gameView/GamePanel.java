@@ -7,24 +7,20 @@ import javax.swing.JPanel;
 
 import boggle.gui.gameView.centerPanel.MiddlePanel;
 import boggle.gui.gameView.northPanel.NorthPanel;
-import boggle.gui.gameView.southPanel.SouthPanel;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel{
 	
 	private NorthPanel northPanel;
 	private MiddlePanel centerPanel;
-	private SouthPanel southPanel;
 	
 	public GamePanel() {
 		northPanel = new NorthPanel();
 		centerPanel = new MiddlePanel();
-		southPanel = new SouthPanel();
 		
 		this.setLayout(new BorderLayout());
 		this.add(northPanel, BorderLayout.NORTH);
 		this.add(centerPanel, BorderLayout.CENTER);
-		//this.add(southPanel, BorderLayout.SOUTH);
 	}
 	
 	public static void main(String[] args) {

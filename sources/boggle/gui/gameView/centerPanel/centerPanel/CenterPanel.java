@@ -9,20 +9,21 @@ import javax.swing.JTextField;
 public class CenterPanel extends JPanel {
 	
 	private GridView gridView;
-	private JPanel panelSouth;
+	private JPanel southPanel;
 	
 	public CenterPanel() {
 		gridView = new GridView();
-		panelSouth = new JPanel();
+		southPanel = new JPanel();
+		
 		
 		BorderLayout borderLayoutSouth = new BorderLayout();
 		borderLayoutSouth.setVgap(10);
 		borderLayoutSouth.setHgap(10);
 		
-		panelSouth.setLayout(borderLayoutSouth);
-		panelSouth.add(new JTextField(), BorderLayout.NORTH);
-		panelSouth.add(new JButton("Clear"), BorderLayout.WEST);
-		panelSouth.add(new JButton("Add word"), BorderLayout.EAST);
+		southPanel.setLayout(borderLayoutSouth);
+		southPanel.add(new JTextField(), BorderLayout.NORTH);
+		southPanel.add(new JButton("Clear"), BorderLayout.WEST);
+		southPanel.add(new JButton("Add word"), BorderLayout.EAST);
 		
 		BorderLayout borderLayout = new BorderLayout();
 		borderLayout.setVgap(10);
@@ -30,6 +31,6 @@ public class CenterPanel extends JPanel {
 		
 		this.setLayout(borderLayout);
 		this.add(gridView, BorderLayout.CENTER);
-		this.add(panelSouth, BorderLayout.SOUTH);
+		this.add(southPanel, BorderLayout.SOUTH);
 	}
 }
