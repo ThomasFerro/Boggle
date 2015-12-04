@@ -22,8 +22,10 @@ public class LeftPanel extends JPanel {
 		panelScore = new ScorePanel();
 		panelCurrentPlayer = new JPanel();
 		panelCurrentPlayer.add(new JLabel("Player : "));
+		currentPlayer.setForeground(Color.RED);
 		panelCurrentPlayer.add(currentPlayer);
-		
+
+
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.GRAY);
 		this.add(panelCurrentPlayer, BorderLayout.NORTH);
