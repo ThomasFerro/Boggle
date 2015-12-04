@@ -24,7 +24,7 @@ public class GamePanel extends JPanel{
 		this.setLayout(new BorderLayout());
 		this.add(northPanel, BorderLayout.NORTH);
 		this.add(centerPanel, BorderLayout.CENTER);
-		this.add(southPanel, BorderLayout.SOUTH);
+		//this.add(southPanel, BorderLayout.SOUTH);
 	}
 	
 	public static void main(String[] args) {

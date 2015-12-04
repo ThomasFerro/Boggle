@@ -14,7 +14,6 @@ public class NorthPanel extends JPanel {
 	private TimerPanel timer;
 	
 	public NorthPanel() {
-		this.setBackground(Color.CYAN);
 		this.setLayout(new GridLayout(1,3));
 		
 		backToMenu = new JButton("back to menu");
