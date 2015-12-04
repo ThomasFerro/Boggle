@@ -45,6 +45,7 @@ public class PlayersMenu extends JPanel{
 		gbc.gridx = 1;
 		this.add(panelIA);
 		
+		//RadioButtons
 		JPanel paneRadio = new JPanel();
 		paneRadio.setLayout(new BoxLayout(paneRadio,3));
 		JRadioButton radioButtonBasic = new JRadioButton("Basic", true);
