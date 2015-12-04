@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import boggle.gui.gameView.centerPanel.CenterPanel;
+import boggle.gui.gameView.centerPanel.MiddlePanel;
 import boggle.gui.gameView.northPanel.NorthPanel;
 import boggle.gui.gameView.southPanel.SouthPanel;
 
@@ -13,12 +13,12 @@ import boggle.gui.gameView.southPanel.SouthPanel;
 public class GamePanel extends JPanel{
 	
 	private NorthPanel northPanel;
-	private CenterPanel centerPanel;
+	private MiddlePanel centerPanel;
 	private SouthPanel southPanel;
 	
 	public GamePanel() {
 		northPanel = new NorthPanel();
-		centerPanel = new CenterPanel();
+		centerPanel = new MiddlePanel();
 		southPanel = new SouthPanel();
 		
 		this.setLayout(new BorderLayout());
@@ -29,7 +29,7 @@ public class GamePanel extends JPanel{
 	
 	public static void main(String[] args) {
 		JFrame j = new JFrame("Boggle - Game");
-		j.setSize(700, 500);
+		j.setSize(900, 500);
 		j.setLocationRelativeTo(null);
 		j.setContentPane(new GamePanel());
 		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -4,9 +4,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-public class PanelScore extends JPanel {
+public class ScorePanel extends JPanel {
 	
-	public PanelScore() {
+	public ScorePanel() {
 		Border border = BorderFactory.createTitledBorder("Scores");
 		this.setBorder(border);
 	}

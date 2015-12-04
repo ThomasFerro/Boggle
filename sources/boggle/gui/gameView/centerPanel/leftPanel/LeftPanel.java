@@ -15,11 +15,11 @@ public class LeftPanel extends JPanel {
 	
 	private JLabel currentPlayer;
 	private JPanel panelCurrentPlayer;
-	private PanelScore panelScore;
+	private ScorePanel panelScore;
 	
 	public LeftPanel() {
 		currentPlayer = new JLabel("Captain DUCK");
-		panelScore = new PanelScore();
+		panelScore = new ScorePanel();
 		panelCurrentPlayer = new JPanel();
 		panelCurrentPlayer.add(new JLabel("Player : "));
 		panelCurrentPlayer.add(currentPlayer);
