@@ -1,6 +1,10 @@
 package boggle.gui.menu.left.players;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -19,26 +23,37 @@ public class PlayersMenu extends JPanel{
 		this.setBorder(border);
 		this.setSize(new Dimension(100,100));
 		
-		GridLayout layout = new GridLayout(1, 3);
-		layout.setHgap(0);
-		this.setLayout(layout);
-		this.add(new JLabel("Human :"));
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
 		
+		//Panel "Human"
+		JPanel panelHuman = new JPanel();
+		panelHuman.setLayout(new FlowLayout());
+		panelHuman.add(new JLabel("Human :"));
 		JSpinner spinnerHuman = new JSpinner(new SpinnerNumberModel(1, 0, 5, 1));
-		this.add(spinnerHuman);
+		panelHuman.add(spinnerHuman);
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		this.add(panelHuman);
 		
-		this.add(new JLabel("IA :")); 
-		
+		//Panel "IA"
+		JPanel panelIA = new JPanel();
+		panelIA.setLayout(new FlowLayout());
+		panelIA.add(new JLabel("IA :")); 
 		JSpinner spinnerIA = new JSpinner(new SpinnerNumberModel(0, 0, 5, 1));
-		this.add(spinnerIA);
+		panelIA.add(spinnerIA);
+		gbc.gridx = 1;
+		this.add(panelIA);
 		
 		JPanel paneRadio = new JPanel();
 		paneRadio.setLayout(new BoxLayout(paneRadio,3));
 		JRadioButton radioButtonBasic = new JRadioButton("Basic", true);
 		JRadioButton radioButtonAdvanced = new JRadioButton("Advanced");
-		
+
 		ButtonGroup group = new ButtonGroup();
+		gbc.gridx = 2;
 		paneRadio.add(radioButtonBasic);
+		gbc.gridy = 1;
 		paneRadio.add(radioButtonAdvanced);
 		group.add(radioButtonBasic);
 		group.add(radioButtonAdvanced);
