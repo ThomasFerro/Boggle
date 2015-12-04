@@ -26,6 +26,7 @@ public class Menu extends JPanel{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(200, 200);
 		frame.add(new RightMenu(new File("config/Highscore")));
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 }
