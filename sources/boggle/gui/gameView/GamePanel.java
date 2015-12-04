@@ -21,14 +21,6 @@ public class GamePanel extends JPanel{
 		this.setLayout(new BorderLayout());
 		this.add(northPanel, BorderLayout.NORTH);
 		this.add(centerPanel, BorderLayout.CENTER);
-	}
-	
-	public static void main(String[] args) {
-		JFrame j = new JFrame("Boggle - Game");
-		j.setSize(900, 500);
-		j.setLocationRelativeTo(null);
-		j.setContentPane(new GamePanel());
-		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		j.setVisible(true);
+		this.setSize(900, 500);
 	}
 }

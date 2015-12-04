@@ -12,8 +12,6 @@ public class LeftMenu extends JPanel{
 		this.setSize(new Dimension(1000,1000));
 		this.add(new PlayersMenu());
 		this.setVisible(true);
-		
-		
 	}
 	
 	public static void main(String[] args) {
