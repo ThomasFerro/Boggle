@@ -2,11 +2,11 @@
 # Mini-jeu Boggle - Projet Génie Logiciel - DA2I
 ## Leleu Julien - Ferro Thomas
 
-----------------------------
 
 ### I - Compilation des sources et exécution du programme
 TODO: Décrire procédure de compilation et d'éxecution
 
+-----------------------------
 
 ### II - Documentation utilisateur
 #### II.1 - Lancement du jeu
