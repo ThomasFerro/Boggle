@@ -35,6 +35,11 @@ public abstract class Game {
 			System.out.println("Game initialization error");
 	}
 
+	/**
+	 * 
+	 * @param config The config file (eg : regles-4x4.config)
+	 * @return False if the load has failed, true otherwise
+	 */
 	private boolean loadConfigs(File config) {
 		//Load the properties :
 		Properties props;
@@ -82,6 +87,10 @@ public abstract class Game {
 		return false;
 	}
 
+	/**
+	 * Create the grid and the tree with the loadConfig properties
+	 * @return True if the tree and the grid succesfully loaded
+	 */
 	private boolean launch() {
 		try {
 			//Créer le LetterGrid :
@@ -95,6 +104,9 @@ public abstract class Game {
 		return true;
 	}
 
+	/**
+	 * For each player : shake the grid, wait for the player to play his turn then call the endTurn method while the end game condition is false.
+	 */
 	protected void run() {
 		do {
 			this.round++;
@@ -127,6 +139,9 @@ public abstract class Game {
 		}while(!isFinished());
 	}
 
+	/**
+	 * Check if the words are valid with the tree then attribute the points by calling the checkScore method
+	 */
 	protected void endTurn() {
 		//Pour chaque mot de la liste
 		for(String word : currentPlayer.getWords()) {
@@ -138,6 +153,11 @@ public abstract class Game {
 		}
 	}
 
+	/**
+	 * Check the length of the word and return the points according to the point grid.
+	 * @param word : The word to check.
+	 * @return The value of that word.
+	 */
 	private int checkScore(String word) {
 		int sizeTab = pointGrid.length;
 		
@@ -156,6 +176,9 @@ public abstract class Game {
 		return 0;
 	}
 	
+	/**
+	 * For textual mode, wait for the players' input until he type "submit".
+	 */
 	private void playerInput() {
 		//Mode textuel : Attente entrée jusqu'à "Submit":
 		System.out.println(currentPlayer.getName()+": Enter your words :");
@@ -167,6 +190,10 @@ public abstract class Game {
 		}while(!mot.equalsIgnoreCase("SUBMIT"));
 	}
 
+	/**
+	 * Check if the round or point limit is reached.
+	 * @return True if the limit is reached.
+	 */
 	protected abstract boolean isFinished();
 
 	//-------------------------------------------
