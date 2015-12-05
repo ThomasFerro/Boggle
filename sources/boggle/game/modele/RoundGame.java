@@ -1,6 +1,8 @@
-package boggle.game;
+package boggle.game.modele;
 
 import java.io.File;
+
+import boggle.game.entity.Player;
 
 /**
  * 

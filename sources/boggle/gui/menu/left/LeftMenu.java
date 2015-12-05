@@ -14,10 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import boggle.game.Human;
-import boggle.game.Player;
-import boggle.game.PointGame;
-import boggle.game.RoundGame;
+import boggle.game.entity.Human;
+import boggle.game.entity.Player;
+import boggle.game.modele.PointGame;
+import boggle.game.modele.RoundGame;
 import boggle.gui.menu.left.gameSettings.GameSettingsMenu;
 import boggle.gui.menu.left.players.PlayersMenu;
 

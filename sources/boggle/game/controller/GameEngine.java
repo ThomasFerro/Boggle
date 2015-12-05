@@ -1,4 +1,4 @@
-package boggle.game;
+package boggle.game.controller;
 
 public class GameEngine {
 

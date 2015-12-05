@@ -1,4 +1,4 @@
-package boggle.game;
+package boggle.game.modele;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.Scanner;
 
+import boggle.game.entity.Human;
+import boggle.game.entity.Player;
 import boggle.words.Dice;
 import boggle.words.DiceGrid;
 import boggle.words.LexicalTree;
