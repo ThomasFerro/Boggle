@@ -4,20 +4,14 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import boggle.game.entity.Human;
-import boggle.game.entity.Player;
-import boggle.game.model.PointGame;
-import boggle.game.model.RoundGame;
+import boggle.gui.menu.controller.ButtonConfigListener;
+import boggle.gui.menu.controller.ButtonPlayListener;
 import boggle.gui.menu.left.gameSettings.GameSettingsMenu;
 import boggle.gui.menu.left.players.PlayersMenu;
 
@@ -52,16 +46,20 @@ public class LeftMenu extends JPanel{
 		//GameSettingsMenu:
 		gameSettingsMenu = new GameSettingsMenu();
 		panelPlayersGameSettings.add(gameSettingsMenu);
-		
 		this.add(panelPlayersGameSettings, gbc);
+		
+		//TODO : Manque le fichier de config !! 
 		
 		
 		//Panel Button:
 		gbc.gridy++;
 		JPanel panelButtons = new JPanel();
 		JButton buttonPlay = new JButton("PLAY");
-		buttonPlay.addActionListener(new ButtonPlayListener());
+		buttonPlay.addActionListener(new ButtonPlayListener(this));
+		JButton buttonConfig = new JButton("CONFIG");
+		buttonConfig.addActionListener(new ButtonConfigListener(this));
 		panelButtons.add(buttonPlay);
+		panelButtons.add(buttonConfig);
 		this.add(panelButtons, gbc);		
 	}
 	
@@ -71,44 +69,5 @@ public class LeftMenu extends JPanel{
 
 	public GameSettingsMenu getGameSettingsMenu() {
 		return gameSettingsMenu;
-	}
-
-	public class ButtonPlayListener implements ActionListener {
-		//TODO : A déplacer pour respecter le MVC
-		public void actionPerformed(ActionEvent arg0) {
-			//Création des joueurs:
-			int nbHuman = (int)getPlayersMenu().getSpinnerHuman().getValue();
-			int nbIA = (int)getPlayersMenu().getSpinnerIA().getValue();
-			Player[] players = new Player[nbHuman+nbIA];
-			int j;
-			String name;
-			for(j = 0; j < nbHuman; j++) {
-				name = JOptionPane.showInputDialog("Player "+(j+1)+":");
-				players[j] = new Human(name); 
-			}
-			for(int k = j; k < players.length; k++) {
-				//TODO : Après implémentation des IA, avec vérification de la difficulté
-				//name = JOptionPane.showInputDialog("IA "+(k-j+1)+":");
-				//players[k] = new IA("PlayerIA"+k);
-			}
-			
-			//Récupération des options de la partie:
-			int limit = (int)getGameSettingsMenu().getSpinnerRoundPointLimit().getValue();
-			int tlimite = (int)getGameSettingsMenu().getSpinnerTimeLimit().getValue();
-
-			//RoundGame:
-			if(getGameSettingsMenu().getRadioButtonRoundLimit().isSelected()) {
-				//TODO: Envoyer info de la nouvelle partie au gameEngine
-				//Test, à supprimer
-				new RoundGame(players, new File("config/regles-4x4.config"), limit);
-			}
-			//PointGame:
-			else {
-				//TODO: Envoyer info de la nouvelle partie au gameEngine
-				//Test, à supprimer
-				new PointGame(players, new File("config/regles-4x4.config"), limit);
-			}
-		}
-		
 	}
 }

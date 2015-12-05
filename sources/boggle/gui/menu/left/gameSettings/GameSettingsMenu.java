@@ -57,7 +57,7 @@ public class GameSettingsMenu extends JPanel{
 		panelTimeLimit.add(new JLabel("Time limit :"));
 		spinnerTimeLimit = new JSpinner(new SpinnerNumberModel(60, 10, 600, 1));
 		panelTimeLimit.add(spinnerTimeLimit);
-		this.add(panelTimeLimit, gbc);		
+		this.add(panelTimeLimit, gbc);	
 	}
 	
 	public JRadioButton getRadioButtonRoundLimit() {
