@@ -1,9 +1,9 @@
 package boggle.gui.menu;
 
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.io.File;
 
 import javax.swing.JFrame;
@@ -26,7 +26,7 @@ public class Menu extends JPanel{
 		
 		//RightMenu :
 		gbc.gridx = 1;
-		gbc.ipadx = 100;
+		gbc.insets = new Insets(0,10,0,0);
 		this.add(new RightMenu(new File("config/Highscore")), gbc);
 	}
 

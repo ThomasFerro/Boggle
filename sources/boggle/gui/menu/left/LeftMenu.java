@@ -1,11 +1,10 @@
 package boggle.gui.menu.left;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,13 +27,18 @@ public class LeftMenu extends JPanel{
 		panelLabel.add(labelBoggle);
 		this.add(panelLabel);
 		
-		//PlayerMenu:
+		
 		gbc.gridy++;
-		this.add(new PlayersMenu(), gbc);
+		JPanel panelPlayersGameSettings = new JPanel();
+		panelPlayersGameSettings.setLayout(new GridLayout(2,1));
+		//PlayerMenu:
+		panelPlayersGameSettings.add(new PlayersMenu());
 		
 		//GameSettingsMenu:
-		gbc.gridy++;
-		this.add(new GameSettingsMenu(), gbc);
+		panelPlayersGameSettings.add(new GameSettingsMenu());
+		
+		this.add(panelPlayersGameSettings, gbc);
+		
 		
 		//Panel Button:
 		gbc.gridy++;
