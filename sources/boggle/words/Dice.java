@@ -1,56 +1,50 @@
 package boggle.words;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class Dice {
-
-	private List<List> element;
-	private int size;
-
+	private char [] values;
+	private int currentFaceId;	//Current face's id of values' table
+	private boolean isUsed;
+	
 	public Dice() {
-		element = new ArrayList<List>();
+		values = null;
+		currentFaceId = -1;
+		isUsed = false;
 	}
 	
-	public static Dice readCSV(String path) {
-		Dice d = new Dice();
-		
-		try {
-			BufferedReader file = new BufferedReader(new FileReader(path));
-			String line;
-			while ((line = file.readLine()) != null) {
-				String [] tabChaine = line.split(";");
-				d.getElement().add(Arrays.asList(tabChaine));
-			}
-			file.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+	public Dice(char [] values) {
+		this.values = values;
+		currentFaceId = -1;
+		isUsed = false;
+	}
+	
+	public void shake() {
+		if (values != null && values.length > 0) {
+			Random r = new Random();
+			int minValue = 0;
+			int maxValue = values.length;
+			int value = minValue + r.nextInt(maxValue - minValue);
+			currentFaceId = value;
 		}
-		return d;
+		else {
+			//Exception ..
+		}
 	}
 	
-	public List getElement() {
-		return element;
+	public void setValues(char[] values) {
+		this.values = values;
+	}
+
+	public int getCurrentFaceId() {
+		return currentFaceId;
 	}
 	
-	public char getRandomValue(int x, int y) {
-		Random r = new Random();
-		int indice = x + (y * size);
-		int random = r.nextInt(6);
-		return ((String) element.get(indice).get(random)).charAt(0);
+	public char getCurrentFace() {
+		return values[currentFaceId];
 	}
 	
-	public static void main(String[] args) {
-		Dice d = Dice.readCSV("config/des-4x4.csv");
-		System.out.println(d.getElement());
-		System.out.println(d.getRandomValue(0,0));
+	public boolean isUsed() {
+		return isUsed;
 	}
 }

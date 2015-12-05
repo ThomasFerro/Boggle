@@ -25,7 +25,4 @@ public class PointGame extends Game {
 		}
 		return false;
 	}
-	
-	
-
 }

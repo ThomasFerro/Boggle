@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.Scanner;
 
-import boggle.words.Letter;
-import boggle.words.LetterGrid;
+import boggle.words.Dice;
+import boggle.words.DiceGrid;
 import boggle.words.LexicalTree;
 
 /**
@@ -20,7 +20,7 @@ public abstract class Game {
 	private int round;
 	private Player[] players;
 	private Player currentPlayer;
-	private LetterGrid grid;
+	private DiceGrid grid;
 	private LexicalTree tree;
 	private int minSize;
 	private int[] pointGrid;
@@ -84,8 +84,8 @@ public abstract class Game {
 
 	private boolean launch() {
 		try {
-			//Créer le LetterGrid :
-			grid = new LetterGrid(minSize+1,gridPath);
+			//Créer le DiceGrid :
+			grid = new DiceGrid(minSize+1,gridPath);
 			//Créer l'arbre:
 			tree = LexicalTree.readWords(treePath);
 		}
@@ -103,10 +103,10 @@ public abstract class Game {
 				grid.shake();
 				
 				//A SUPPRIMER --------------------------------
-				Letter[][] lgrid = grid.getGrid();
+				Dice[][] lgrid = grid.getGrid();
 				for (int j = 0; j < lgrid.length; j ++) {
 					for (int k = 0; k < lgrid[j].length; k++) {
-						System.out.print(lgrid[j][k].getCharacter());
+						System.out.print(lgrid[j][k].getCurrentFace());
 					}
 					System.out.println();
 				}
@@ -183,7 +183,7 @@ public abstract class Game {
 		return players;
 	}
 
-	public LetterGrid getGrid() {
+	public DiceGrid getGrid() {
 		return grid;
 	}
 
@@ -209,5 +209,4 @@ public abstract class Game {
 		players[2] = new Human("Oui");
 		Game game = new RoundGame(players, new File("config/regles-4x4.config"), 1);
 	}
-
 }
