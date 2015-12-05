@@ -20,10 +20,9 @@ public class DiceGrid {
 		init(path);
 	}
 	
-	public boolean init(String path) {
+	public void init(String path) {
 		readCSV(path);
 		shake();
-		return true;
 	}
 	
 	public void readCSV(String path) {
@@ -68,10 +67,4 @@ public class DiceGrid {
 	public Dice[][] getGrid() {
 		return grid;
 	}
-	/*
-		public static void main(String[] args) {
-			DiceGrid d = new DiceGrid(4,"config/des-4x4.csv");
-			System.out.println(d);
-		}
-	*/
 }

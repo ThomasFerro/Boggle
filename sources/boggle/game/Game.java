@@ -209,5 +209,4 @@ public abstract class Game {
 		players[2] = new Human("Oui");
 		Game game = new RoundGame(players, new File("config/regles-4x4.config"), 1);
 	}
-
 }
