@@ -9,7 +9,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import boggle.game.Human;
@@ -22,8 +24,10 @@ import boggle.gui.menu.left.players.PlayersMenu;
 public class LeftMenu extends JPanel{
 	private PlayersMenu playersMenu;
 	private GameSettingsMenu gameSettingsMenu;
+	private JFrame frame;
 	
-	public LeftMenu() {
+	public LeftMenu(JFrame frame) {
+		this.frame = frame;
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
@@ -70,19 +74,21 @@ public class LeftMenu extends JPanel{
 	}
 
 	public class ButtonPlayListener implements ActionListener {
-
+		//TODO : A déplacer pour respecter le MVC
 		public void actionPerformed(ActionEvent arg0) {
 			//Création des joueurs:
 			int nbHuman = (int)getPlayersMenu().getSpinnerHuman().getValue();
 			int nbIA = (int)getPlayersMenu().getSpinnerIA().getValue();
 			Player[] players = new Player[nbHuman+nbIA];
-			//TODO: Choix du nom des joueurs et IA
 			int j;
+			String name;
 			for(j = 0; j < nbHuman; j++) {
-				players[j] = new Human("PlayerHuman"+j); 
+				name = JOptionPane.showInputDialog("Player "+(j+1)+":");
+				players[j] = new Human(name); 
 			}
 			for(int k = j; k < players.length; k++) {
 				//TODO : Après implémentation des IA, avec vérification de la difficulté
+				//name = JOptionPane.showInputDialog("IA "+(k-j+1)+":");
 				//players[k] = new IA("PlayerIA"+k);
 			}
 			
