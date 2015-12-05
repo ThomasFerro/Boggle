@@ -11,7 +11,7 @@ public class PointGame extends Game {
 	
 	private final int MAX_POINTS;
 
-	PointGame(Player[] players, File config, int maxPoints) {
+	public PointGame(Player[] players, File config, int maxPoints) {
 		super(players, config);
 		MAX_POINTS = maxPoints;
 		super.run();
@@ -25,7 +25,4 @@ public class PointGame extends Game {
 		}
 		return false;
 	}
-	
-	
-
 }
