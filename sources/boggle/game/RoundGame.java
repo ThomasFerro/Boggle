@@ -14,10 +14,11 @@ public class RoundGame extends Game {
 	RoundGame(Player[] players, File config, int maxRounds) {
 		super(players, config);
 		MAX_ROUNDS = maxRounds;
+		super.run();
 	}
 
 	@Override
-	boolean isFinished() {
+	protected boolean isFinished() {
 		return !(this.getRound() < MAX_ROUNDS);
 	}
 

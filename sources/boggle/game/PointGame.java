@@ -14,13 +14,14 @@ public class PointGame extends Game {
 	PointGame(Player[] players, File config, int maxPoints) {
 		super(players, config);
 		MAX_POINTS = maxPoints;
+		super.run();
 	}
 
 	@Override
-	boolean isFinished() {
+	protected boolean isFinished() {
 		for(Player player : getPlayers()) {
-			if(player.getScore() >= MAX_POINTS)
-				return true;
+			if(player.getScore() >= MAX_POINTS) 
+				return true; 
 		}
 		return false;
 	}
