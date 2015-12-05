@@ -18,11 +18,14 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
 
 public class PlayersMenu extends JPanel{
+	private JSpinner spinnerHuman;
+	private JSpinner spinnerIA;
+	private JRadioButton radioButtonBasic;
+	private JRadioButton radioButtonAdvanced;
+	
 	public PlayersMenu() {
 		Border border = BorderFactory.createTitledBorder("Players");
 		this.setBorder(border);
-		this.setSize(new Dimension(100,100));
-		
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		
@@ -30,35 +33,53 @@ public class PlayersMenu extends JPanel{
 		JPanel panelHuman = new JPanel();
 		panelHuman.setLayout(new FlowLayout());
 		panelHuman.add(new JLabel("Human :"));
-		JSpinner spinnerHuman = new JSpinner(new SpinnerNumberModel(1, 0, 5, 1));
+		spinnerHuman = new JSpinner(new SpinnerNumberModel(1, 0, 5, 1));
 		panelHuman.add(spinnerHuman);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		this.add(panelHuman);
+		gbc.gridheight = 2;
+		this.add(panelHuman, gbc);
 		
 		//Panel "IA"
 		JPanel panelIA = new JPanel();
 		panelIA.setLayout(new FlowLayout());
 		panelIA.add(new JLabel("IA :")); 
-		JSpinner spinnerIA = new JSpinner(new SpinnerNumberModel(0, 0, 5, 1));
+		spinnerIA = new JSpinner(new SpinnerNumberModel(0, 0, 5, 1));
 		panelIA.add(spinnerIA);
-		gbc.gridx = 1;
-		this.add(panelIA);
+		gbc.gridx++;
+		this.add(panelIA, gbc);
 		
 		//RadioButtons
 		JPanel paneRadio = new JPanel();
 		paneRadio.setLayout(new BoxLayout(paneRadio,3));
-		JRadioButton radioButtonBasic = new JRadioButton("Basic", true);
-		JRadioButton radioButtonAdvanced = new JRadioButton("Advanced");
+		radioButtonBasic = new JRadioButton("Basic", true);
+		radioButtonAdvanced = new JRadioButton("Advanced");
 
 		ButtonGroup group = new ButtonGroup();
-		gbc.gridx = 2;
+		gbc.gridx++;
+		gbc.gridheight = 1;
 		paneRadio.add(radioButtonBasic);
-		gbc.gridy = 1;
+		gbc.gridy++;
 		paneRadio.add(radioButtonAdvanced);
 		group.add(radioButtonBasic);
 		group.add(radioButtonAdvanced);
 		
-		this.add(paneRadio);
+		this.add(paneRadio, gbc);
+	}
+
+	public JSpinner getSpinnerHuman() {
+		return spinnerHuman;
+	}
+
+	public JSpinner getSpinnerIA() {
+		return spinnerIA;
+	}
+
+	public JRadioButton getRadioButtonBasic() {
+		return radioButtonBasic;
+	}
+
+	public JRadioButton getRadioButtonAdvanced() {
+		return radioButtonAdvanced;
 	}
 }

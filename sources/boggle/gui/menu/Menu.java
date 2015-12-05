@@ -1,6 +1,7 @@
 package boggle.gui.menu;
 
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.File;
@@ -15,16 +16,18 @@ public class Menu extends JPanel{
 	GridBagLayout layout;
 	
 	public Menu() {	
-		this.setLayout(new GridBagLayout());
+		layout = new GridBagLayout();
+		this.setLayout(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
 		//LeftMenu :
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		this.add(new LeftMenu());
+		this.add(new LeftMenu(), gbc);
 		
 		//RightMenu :
 		gbc.gridx = 1;
-		this.add(new RightMenu(new File("config/Highscore")));
+		gbc.ipadx = 100;
+		this.add(new RightMenu(new File("config/Highscore")), gbc);
 	}
 
 	
@@ -32,7 +35,8 @@ public class Menu extends JPanel{
 		//Titre pour les menus : Border border = BorderFactory.createTitledBorder("Titre"); panel.setBorder(border);
 		JFrame frame = new JFrame("Tests");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1000, 1000);
+		frame.setSize(778, 280);
+		frame.setResizable(false);
 		frame.add(new Menu());
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);

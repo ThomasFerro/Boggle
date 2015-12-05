@@ -14,6 +14,11 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
 
 public class GameSettingsMenu extends JPanel{
+	private JRadioButton radioButtonRoundLimit;
+	private JRadioButton radioButtonPointLimit;
+	private JSpinner spinnerRoundPointLimit;
+	private JSpinner spinnerTimeLimit;
+
 	public GameSettingsMenu() {
 		Border border = BorderFactory.createTitledBorder("Game settings");
 		this.setBorder(border);
@@ -25,8 +30,8 @@ public class GameSettingsMenu extends JPanel{
 		gbc.gridy = 0;
 		JPanel paneRadio = new JPanel();
 		paneRadio.setLayout(new BoxLayout(paneRadio,3));
-		JRadioButton radioButtonRoundLimit = new JRadioButton("Round limit", true);
-		JRadioButton radioButtonPointLimit = new JRadioButton("Point limit");
+		radioButtonRoundLimit = new JRadioButton("Round limit", true);
+		radioButtonPointLimit = new JRadioButton("Point limit");
 
 		ButtonGroup group = new ButtonGroup();
 		paneRadio.add(radioButtonRoundLimit);
@@ -34,23 +39,40 @@ public class GameSettingsMenu extends JPanel{
 		paneRadio.add(radioButtonPointLimit);
 		group.add(radioButtonRoundLimit);
 		group.add(radioButtonPointLimit);
-		this.add(paneRadio);
+		this.add(paneRadio, gbc);
 		
 		//Round/Point limit:
 		gbc.gridx = 1;
 		gbc.gridy = 0;
+		gbc.gridheight = 2;
 		JPanel panelRoundPointLimit = new JPanel();
 		panelRoundPointLimit.add(new JLabel("Round/Point limit :"));
-		JSpinner spinnerRoundPointLimit = new JSpinner(new SpinnerNumberModel(5, 1, 1000, 1));
+		spinnerRoundPointLimit = new JSpinner(new SpinnerNumberModel(5, 1, 1000, 1));
 		panelRoundPointLimit.add(spinnerRoundPointLimit);
-		this.add(panelRoundPointLimit);
+		this.add(panelRoundPointLimit, gbc);
 		
 		//Time limit:
 		gbc.gridx = 2;
 		JPanel panelTimeLimit = new JPanel();
 		panelTimeLimit.add(new JLabel("Time limit :"));
-		JSpinner spinnerTimeLimit = new JSpinner(new SpinnerNumberModel(60, 10, 600, 1));
+		spinnerTimeLimit = new JSpinner(new SpinnerNumberModel(60, 10, 600, 1));
 		panelTimeLimit.add(spinnerTimeLimit);
-		this.add(panelTimeLimit);		
+		this.add(panelTimeLimit, gbc);		
+	}
+	
+	public JRadioButton getRadioButtonRoundLimit() {
+		return radioButtonRoundLimit;
+	}
+
+	public JRadioButton getRadioButtonPointLimit() {
+		return radioButtonPointLimit;
+	}
+
+	public JSpinner getSpinnerRoundPointLimit() {
+		return spinnerRoundPointLimit;
+	}
+
+	public JSpinner getSpinnerTimeLimit() {
+		return spinnerTimeLimit;
 	}
 }
