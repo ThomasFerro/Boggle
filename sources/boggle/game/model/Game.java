@@ -1,4 +1,4 @@
-package boggle.game.modele;
+package boggle.game.model;
 
 import java.io.File;
 import java.io.FileInputStream;

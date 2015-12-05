@@ -16,8 +16,8 @@ import javax.swing.JPanel;
 
 import boggle.game.entity.Human;
 import boggle.game.entity.Player;
-import boggle.game.modele.PointGame;
-import boggle.game.modele.RoundGame;
+import boggle.game.model.PointGame;
+import boggle.game.model.RoundGame;
 import boggle.gui.menu.left.gameSettings.GameSettingsMenu;
 import boggle.gui.menu.left.players.PlayersMenu;
 
