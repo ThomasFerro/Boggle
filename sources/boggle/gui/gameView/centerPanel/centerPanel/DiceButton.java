@@ -1,15 +1,15 @@
 package boggle.gui.gameView.centerPanel.centerPanel;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+import javafx.scene.Cursor;
 
 public class DiceButton extends JButton {
 
@@ -22,11 +22,12 @@ public class DiceButton extends JButton {
 		super(name);
 		this.setSize(new Dimension(50,50));
 		this.setPreferredSize(new Dimension(50,50));
+		this.setBorder(null);
 		this.name = name;
 		this.used = false;
 		this.locked = false;
 	}
-	
+
 	protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setFont(new Font(g.getFont().getFontName(), Font.BOLD, FONT_SIZE));
