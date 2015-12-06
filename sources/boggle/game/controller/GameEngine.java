@@ -36,7 +36,6 @@ public class GameEngine implements Observer{
 	public void loadGame() {
 		window.loadGame();
 		window.getGamePanel().getNorthPanel().getBackToMenu().addActionListener(new ButtonBackToMenuListener(window.getGamePanel().getNorthPanel(), this));
-		
 	}
 	
 	public void update(Observable obs, Object obj) {
@@ -50,21 +49,23 @@ public class GameEngine implements Observer{
 			gameConfig = (GameConfig)obj;
 			if(gameConfig.getGameType().equals("RoundGame")) {
 				//LoadGamePanel + new RoundGame(infos)
+				this.loadGame();
 			}
 			else {
 				if(gameConfig.getGameType().equals("PointGame")) {
 					//LoadGamePanel + new PointGame(infos)
+					this.loadGame();
 				}
 			}
 		}
 		else if (obs instanceof ButtonBackToMenuListener) {
-			window.loadMenu();
+			this.loadMenu();
 		}
 	}
 
 	public static void main(String[] args) {
 		GameEngine engine = new GameEngine();
 		//Lancement du jeu, chargement du menu puis de la partie
-		engine.loadGame();
+		engine.loadMenu();
 	}
 }
