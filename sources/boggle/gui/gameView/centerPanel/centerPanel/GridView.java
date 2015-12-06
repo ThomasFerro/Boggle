@@ -20,12 +20,8 @@ public class GridView extends JPanel {
 		this.setLayout(gridLayout);
 		
 		buttons = new ArrayList<JButton>();
-		JButton tmp = new JButton("");
 		for (int i = 0; i < 16; i++) {
-			tmp = new JButton("" + i);
-			tmp.setBackground(Color.LIGHT_GRAY);
-			tmp.setBorder(null);
-			this.add(tmp);
+			this.add(new DiceButton("" + (char)(65+i)));
 		}
 	}
 }
