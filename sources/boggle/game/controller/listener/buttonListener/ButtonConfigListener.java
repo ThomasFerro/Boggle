@@ -1,4 +1,4 @@
-package boggle.game.controller.buttonListener;
+package boggle.game.controller.listener.buttonListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
-import boggle.game.controller.buttonListener.ButtonConfigListener;
-import boggle.game.controller.buttonListener.ButtonPlayListener;
 import boggle.game.controller.gameConfig.GameConfig;
+import boggle.game.controller.listener.buttonListener.ButtonConfigListener;
+import boggle.game.controller.listener.buttonListener.ButtonPlayListener;
 import boggle.game.model.Game;
 import boggle.gui.window.Window;
 
@@ -30,6 +30,10 @@ public class GameEngine implements Observer{
 		window.loadMenu();
 		window.getMenu().getLeftMenu().getButtonPlay().addActionListener(new ButtonPlayListener(window.getMenu().getLeftMenu(), this));
 		window.getMenu().getLeftMenu().getButtonConfig().addActionListener(new ButtonConfigListener(window.getMenu().getLeftMenu(), this));
+	}
+	
+	public void loadGame() {
+		window.loadGame();
 	}
 	
 	public void update(Observable arg0, Object arg1) {
@@ -57,6 +61,6 @@ public class GameEngine implements Observer{
 	public static void main(String[] args) {
 		GameEngine engine = new GameEngine();
 		//Lancement du jeu, chargement du menu puis de la partie
-		engine.loadMenu();
+		engine.loadGame();
 	}
 }

@@ -26,6 +26,16 @@ public class Window implements Observer {
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameFrame.setVisible(true);
 	}
+	
+	public void loadGame() {
+		gamePanel = new GamePanel();
+		gameFrame.getContentPane().removeAll();
+		gameFrame.setSize(gamePanel.getWidth(), gamePanel.getHeight());
+		gameFrame.setLocationRelativeTo(null);
+		gameFrame.setContentPane(gamePanel);
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		gameFrame.setVisible(true);
+	}
 
 	@Override
 	public void update(Observable observable, Object object) {
