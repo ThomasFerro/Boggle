@@ -27,4 +27,20 @@ public class RightPanel extends JPanel {
 		this.add(panelSubmit, BorderLayout.SOUTH);
 		this.setPreferredSize(new Dimension(250,300));
 	}
+
+	public WordPanel getWordPanel() {
+		return wordPanel;
+	}
+
+	public void setWordPanel(WordPanel wordPanel) {
+		this.wordPanel = wordPanel;
+	}
+
+	public JPanel getPanelSubmit() {
+		return panelSubmit;
+	}
+
+	public void setPanelSubmit(JPanel panelSubmit) {
+		this.panelSubmit = panelSubmit;
+	}
 }

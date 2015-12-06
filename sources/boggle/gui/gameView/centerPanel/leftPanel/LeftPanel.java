@@ -40,4 +40,24 @@ public class LeftPanel extends JPanel {
 	public void setCurrentPlayer(String currentPlayer) {
 		this.currentPlayer.setText(currentPlayer);
 	}
+
+	public JPanel getPanelCurrentPlayer() {
+		return panelCurrentPlayer;
+	}
+
+	public void setPanelCurrentPlayer(JPanel panelCurrentPlayer) {
+		this.panelCurrentPlayer = panelCurrentPlayer;
+	}
+
+	public ScorePanel getPanelScore() {
+		return panelScore;
+	}
+
+	public void setPanelScore(ScorePanel panelScore) {
+		this.panelScore = panelScore;
+	}
+
+	public void setCurrentPlayer(JLabel currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
 }

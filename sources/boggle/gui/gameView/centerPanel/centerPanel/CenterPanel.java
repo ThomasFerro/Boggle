@@ -33,4 +33,20 @@ public class CenterPanel extends JPanel {
 		this.add(gridView, BorderLayout.CENTER);
 		this.add(southPanel, BorderLayout.SOUTH);
 	}
+
+	public GridView getGridView() {
+		return gridView;
+	}
+
+	public void setGridView(GridView gridView) {
+		this.gridView = gridView;
+	}
+
+	public JPanel getSouthPanel() {
+		return southPanel;
+	}
+
+	public void setSouthPanel(JPanel southPanel) {
+		this.southPanel = southPanel;
+	}
 }
