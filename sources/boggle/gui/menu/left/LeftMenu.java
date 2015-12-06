@@ -19,6 +19,8 @@ public class LeftMenu extends JPanel{
 	private PlayersMenu playersMenu;
 	private GameSettingsMenu gameSettingsMenu;
 	private JFrame frame;
+	private JButton buttonPlay;
+	private JButton buttonConfig;
 	
 	public LeftMenu(JFrame frame) {
 		this.frame = frame;
@@ -54,10 +56,8 @@ public class LeftMenu extends JPanel{
 		//Panel Button:
 		gbc.gridy++;
 		JPanel panelButtons = new JPanel();
-		JButton buttonPlay = new JButton("PLAY");
-		buttonPlay.addActionListener(new ButtonPlayListener(this));
-		JButton buttonConfig = new JButton("CONFIG");
-		buttonConfig.addActionListener(new ButtonConfigListener(this));
+		buttonPlay = new JButton("PLAY");
+		buttonConfig = new JButton("CONFIG");
 		panelButtons.add(buttonPlay);
 		panelButtons.add(buttonConfig);
 		this.add(panelButtons, gbc);		
@@ -69,5 +69,13 @@ public class LeftMenu extends JPanel{
 
 	public GameSettingsMenu getGameSettingsMenu() {
 		return gameSettingsMenu;
+	}
+
+	public JButton getButtonPlay() {
+		return buttonPlay;
+	}
+
+	public JButton getButtonConfig() {
+		return buttonConfig;
 	}
 }

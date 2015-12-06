@@ -6,8 +6,8 @@ import java.io.File;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import boggle.game.controller.highscore.HighscoreModel;
 import boggle.gui.menu.right.highscore.HighscoreMenu;
-import boggle.gui.menu.right.highscore.HighscoreModel;
 
 public class RightMenu extends JPanel{
 	public RightMenu(File f) {

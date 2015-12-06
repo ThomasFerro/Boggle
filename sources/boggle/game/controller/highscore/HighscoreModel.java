@@ -1,4 +1,4 @@
-package boggle.gui.menu.right.highscore;
+package boggle.game.controller.highscore;
 
 import java.io.File;
 import java.util.Scanner;

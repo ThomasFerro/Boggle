@@ -15,16 +15,19 @@ import boggle.gui.menu.right.RightMenu;
 public class Menu extends JPanel{
 	private GridBagLayout layout;
 	private JFrame frame;
+	private LeftMenu leftMenu;
 	
 	public Menu(JFrame frame) {	
 		this.frame = frame;
+		this.setSize(778,280);
 		layout = new GridBagLayout();
 		this.setLayout(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
 		//LeftMenu :
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		this.add(new LeftMenu(frame), gbc);
+		leftMenu = new LeftMenu(frame);
+		this.add(leftMenu, gbc);
 		
 		//RightMenu :
 		gbc.gridx = 1;
@@ -32,15 +35,18 @@ public class Menu extends JPanel{
 		this.add(new RightMenu(new File("config/Highscore")), gbc);
 	}
 
-	
+	public LeftMenu getLeftMenu() {
+		return leftMenu;
+	}
+
+	/*
 	public static void main(String[] args) {
 		//Titre pour les menus : Border border = BorderFactory.createTitledBorder("Titre"); panel.setBorder(border);
 		JFrame frame = new JFrame("Tests");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(778, 280);
 		frame.setResizable(false);
 		frame.add(new Menu(frame));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-	}
+	}*/
 }

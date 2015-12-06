@@ -3,6 +3,7 @@ package boggle.game.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Observable;
 
 import javax.swing.JOptionPane;
 
@@ -12,11 +13,12 @@ import boggle.game.model.PointGame;
 import boggle.game.model.RoundGame;
 import boggle.gui.menu.left.LeftMenu;
 
-public class ButtonPlayListener implements ActionListener {
+public class ButtonPlayListener extends Observable implements ActionListener {
 	private LeftMenu leftMenu;
 	
-	public ButtonPlayListener(LeftMenu leftMenu) {
+	public ButtonPlayListener(LeftMenu leftMenu, GameEngine engine) {
 		this.leftMenu = leftMenu;
+		addObserver(engine);
 	}
 	
 	public void actionPerformed(ActionEvent arg0) {
@@ -43,14 +45,10 @@ public class ButtonPlayListener implements ActionListener {
 		//RoundGame:
 		if(leftMenu.getGameSettingsMenu().getRadioButtonRoundLimit().isSelected()) {
 			//TODO: Envoyer info de la nouvelle partie au gameEngine
-			//Test, à supprimer
-			new RoundGame(players, new File("config/regles-4x4.config"), limit);
 		}
 		//PointGame:
 		else {
 			//TODO: Envoyer info de la nouvelle partie au gameEngine
-			//Test, à supprimer
-			new PointGame(players, new File("config/regles-4x4.config"), limit);
 		}
 	}
 	
