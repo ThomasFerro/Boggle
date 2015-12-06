@@ -1,15 +1,19 @@
 package boggle.gui.gameView.centerPanel.centerPanel;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class DiceButton extends JButton {
 
+	private final int FONT_SIZE = 25;
 	private String name;
 	private boolean used;
 	private boolean locked;
@@ -21,11 +25,11 @@ public class DiceButton extends JButton {
 		this.name = name;
 		this.used = false;
 		this.locked = false;
-		this.setBorder(null);
 	}
 	
 	protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.setFont(new Font(g.getFont().getFontName(), Font.BOLD, FONT_SIZE));
         Image img = null;
         if (locked) {
         	img = new ImageIcon("img/DisableDice.png").getImage();
