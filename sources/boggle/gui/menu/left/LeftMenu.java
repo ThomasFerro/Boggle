@@ -10,8 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import boggle.gui.menu.controller.ButtonConfigListener;
-import boggle.gui.menu.controller.ButtonPlayListener;
+import boggle.game.controller.ButtonConfigListener;
+import boggle.game.controller.ButtonPlayListener;
 import boggle.gui.menu.left.gameSettings.GameSettingsMenu;
 import boggle.gui.menu.left.players.PlayersMenu;
 
