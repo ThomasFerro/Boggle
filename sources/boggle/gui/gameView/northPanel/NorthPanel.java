@@ -27,4 +27,27 @@ public class NorthPanel extends JPanel {
 		this.add(backToMenuPanel);
 	}
 
+	public JPanel getBackToMenuPanel() {
+		return backToMenuPanel;
+	}
+
+	public void setBackToMenuPanel(JPanel backToMenuPanel) {
+		this.backToMenuPanel = backToMenuPanel;
+	}
+
+	public JButton getBackToMenu() {
+		return backToMenu;
+	}
+
+	public void setBackToMenu(JButton backToMenu) {
+		this.backToMenu = backToMenu;
+	}
+
+	public TimerPanel getTimer() {
+		return timer;
+	}
+
+	public void setTimer(TimerPanel timer) {
+		this.timer = timer;
+	}
 }
