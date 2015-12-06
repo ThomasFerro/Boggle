@@ -1,4 +1,4 @@
-package boggle.game.controller;
+package boggle.game.controller.buttonListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +7,7 @@ import java.util.Observable;
 
 import javax.swing.JFileChooser;
 
+import boggle.game.controller.GameEngine;
 import boggle.gui.menu.left.LeftMenu;
 
 public class ButtonConfigListener extends Observable implements ActionListener{
@@ -15,6 +16,7 @@ public class ButtonConfigListener extends Observable implements ActionListener{
 	
 	public ButtonConfigListener(LeftMenu leftMenu, GameEngine engine) {
 		this.leftMenu = leftMenu;
+		//Add the engine as the observer
 		addObserver(engine);
 		fileChooser = new JFileChooser();
 	}
@@ -25,11 +27,9 @@ public class ButtonConfigListener extends Observable implements ActionListener{
 		int result = fileChooser.showOpenDialog(leftMenu);
 		//Check if the file is valid (.config):
 		if ((result == JFileChooser.APPROVE_OPTION) && (fileChooser.getSelectedFile().toString().substring(fileChooser.getSelectedFile().toString().lastIndexOf(".") + 1).equals("config"))) {
-			//TODO : envoyer fileChooser.getSelectedFile() au gameEngine.
+			//Send the result to the gameEngine
 			setChanged();
-			notifyObservers();
-			
-			System.out.println(fileChooser.getSelectedFile());
+			notifyObservers(fileChooser.getSelectedFile());
 		}
 		else {
 			//TODO : Exception pour remplacer le sysout

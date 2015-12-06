@@ -1,16 +1,15 @@
-package boggle.game.controller;
+package boggle.game.controller.buttonListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.Observable;
 
 import javax.swing.JOptionPane;
 
+import boggle.game.controller.GameEngine;
+import boggle.game.controller.gameConfig.GameConfig;
 import boggle.game.entity.Human;
 import boggle.game.entity.Player;
-import boggle.game.model.PointGame;
-import boggle.game.model.RoundGame;
 import boggle.gui.menu.left.LeftMenu;
 
 public class ButtonPlayListener extends Observable implements ActionListener {
@@ -25,7 +24,7 @@ public class ButtonPlayListener extends Observable implements ActionListener {
 		//Création des joueurs:
 		int nbHuman = (int)leftMenu.getPlayersMenu().getSpinnerHuman().getValue();
 		int nbIA = (int)leftMenu.getPlayersMenu().getSpinnerIA().getValue();
-		Player[] players = new Player[nbHuman+nbIA];
+		Player[] players = new Player[nbHuman];
 		int j;
 		String name;
 		for(j = 0; j < nbHuman; j++) {
@@ -40,15 +39,18 @@ public class ButtonPlayListener extends Observable implements ActionListener {
 		
 		//Récupération des options de la partie:
 		int limit = (int)leftMenu.getGameSettingsMenu().getSpinnerRoundPointLimit().getValue();
-		int tlimite = (int)leftMenu.getGameSettingsMenu().getSpinnerTimeLimit().getValue();
+		int tlimit = (int)leftMenu.getGameSettingsMenu().getSpinnerTimeLimit().getValue();
 
+		//Send the result to the engine
 		//RoundGame:
 		if(leftMenu.getGameSettingsMenu().getRadioButtonRoundLimit().isSelected()) {
-			//TODO: Envoyer info de la nouvelle partie au gameEngine
+			setChanged();
+			notifyObservers(new GameConfig(players, limit, tlimit, "RoundGame"));
 		}
 		//PointGame:
 		else {
-			//TODO: Envoyer info de la nouvelle partie au gameEngine
+			setChanged();
+			notifyObservers(new GameConfig(players, limit, tlimit, "PointGame"));
 		}
 	}
 	
