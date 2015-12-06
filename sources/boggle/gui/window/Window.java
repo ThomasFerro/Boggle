@@ -20,6 +20,7 @@ public class Window implements Observer {
 	
 	public void loadMenu() {
 		menu = new Menu(gameFrame);
+		gameFrame.getContentPane().removeAll();
 		gameFrame.setSize(menu.getWidth(), menu.getHeight());
 		gameFrame.setLocationRelativeTo(null);
 		gameFrame.setContentPane(menu);

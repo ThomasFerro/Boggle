@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import boggle.game.controller.gameConfig.GameConfig;
+import boggle.game.controller.listener.buttonListener.ButtonBackToMenuListener;
 import boggle.game.controller.listener.buttonListener.ButtonConfigListener;
 import boggle.game.controller.listener.buttonListener.ButtonPlayListener;
 import boggle.game.model.Game;
@@ -34,27 +35,30 @@ public class GameEngine implements Observer{
 	
 	public void loadGame() {
 		window.loadGame();
+		window.getGamePanel().getNorthPanel().getBackToMenu().addActionListener(new ButtonBackToMenuListener(window.getGamePanel().getNorthPanel(), this));
+		
 	}
 	
-	public void update(Observable arg0, Object arg1) {
-		if(arg0 instanceof ButtonConfigListener) {
+	public void update(Observable obs, Object obj) {
+		if(obs instanceof ButtonConfigListener) {
 			//Change the configFile
-			configFile = new File(arg1.toString());
+			configFile = new File(obj.toString());
 			System.out.println("test");
 		}
-		else {
-			if(arg0 instanceof ButtonPlayListener) {
-				//Get the player list and the limits
-				gameConfig = (GameConfig)arg1;
-				if(gameConfig.getGameType().equals("RoundGame")) {
-					//LoadGamePanel + new RoundGame(infos)
-				}
-				else {
-					if(gameConfig.getGameType().equals("PointGame")) {
-						//LoadGamePanel + new PointGame(infos)
-					}
+		else if(obs instanceof ButtonPlayListener) {
+			//Get the player list and the limits
+			gameConfig = (GameConfig)obj;
+			if(gameConfig.getGameType().equals("RoundGame")) {
+				//LoadGamePanel + new RoundGame(infos)
+			}
+			else {
+				if(gameConfig.getGameType().equals("PointGame")) {
+					//LoadGamePanel + new PointGame(infos)
 				}
 			}
+		}
+		else if (obs instanceof ButtonBackToMenuListener) {
+			window.loadMenu();
 		}
 	}
 
