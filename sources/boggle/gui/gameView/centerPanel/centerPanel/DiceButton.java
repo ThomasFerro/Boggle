@@ -9,8 +9,6 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import javafx.scene.Cursor;
-
 public class DiceButton extends JButton {
 
 	private final int FONT_SIZE = 25;
