@@ -113,7 +113,6 @@ public abstract class Game implements Runnable{
 					System.out.println();
 				}
 				// FIN A SUPPRIMER ---------------------------
-				
 				//Tour d'un joueur
 				currentPlayer = players[i];
 				currentPlayer.getWords().clear();
@@ -123,7 +122,6 @@ public abstract class Game implements Runnable{
 				while(!isSubmited()) {
 					System.out.print("");
 				}
-
 				//Fin du tour
 				endTurn();
 

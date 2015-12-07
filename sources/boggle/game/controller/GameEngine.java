@@ -37,10 +37,17 @@ public class GameEngine implements Observer{
 		window.getMenu().getLeftMenu().getButtonConfig().addActionListener(new ButtonConfigListener(window.getMenu().getLeftMenu(), this));
 	}
 	
-	public void loadGame() {
+	public void loadGame(Game game) {
 		window.loadGame();
 		window.getGamePanel().getNorthPanel().getBackToMenu().addActionListener(new ButtonBackToMenuListener(window.getGamePanel().getNorthPanel(), this));
 		window.getGamePanel().getCenterPanel().getRightPanel().getButtonSubmit().addActionListener(new ButtonSubmitListener(window.getGamePanel().getCenterPanel().getRightPanel(), this));
+		
+		this.game = game;
+		gameThread = new Thread(this.game);
+		gameThread.start();
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().init(this.game.getGrid());
+		this.window.getGamePanel().getCenterPanel().getLeftPanel().setCurrentPlayer(this.game.getCurrentPlayer().getName());
+		this.window.getGamePanel().getCenterPanel().getLeftPanel().getPanelScore().init(game.getPlayers());
 	}
 	
 	public void update(Observable obs, Object obj) {
@@ -63,24 +70,22 @@ public class GameEngine implements Observer{
 	private void updateButtonPlay(GameConfig gameConfig) {
 		if(gameConfig.getGameType().equals("RoundGame")) {
 			//LoadGamePanel + new RoundGame(infos)
-			this.loadGame();
-			game = new RoundGame(gameConfig.getPlayers(),configFile , gameConfig.getLimit());
-			gameThread = new Thread(game);
-			gameThread.start();
+			this.loadGame(new RoundGame(gameConfig.getPlayers(),configFile , gameConfig.getLimit()));
 		}
 		else {
 			if(gameConfig.getGameType().equals("PointGame")) {
 				//LoadGamePanel + new PointGame(infos)
-				this.loadGame();
-				game = new PointGame(gameConfig.getPlayers(),configFile , gameConfig.getLimit());
-				gameThread = new Thread(game);
-				gameThread.start();
+				this.loadGame(new PointGame(gameConfig.getPlayers(),configFile , gameConfig.getLimit()));
 			}
 		}
 	}
 	
 	private void updateButtonSubmit() {
 		game.setSubmited();
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().init(this.game.getGrid());
+		this.window.getGamePanel().getCenterPanel().getLeftPanel().setCurrentPlayer(this.game.getCurrentPlayer().getName());
+		this.window.getGamePanel().getCenterPanel().getLeftPanel().getPanelScore().update();
+		this.window.getGamePanel().revalidate();
 	}
 
 	public static void main(String[] args) {
