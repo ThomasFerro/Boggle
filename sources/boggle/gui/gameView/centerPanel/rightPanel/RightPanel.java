@@ -12,15 +12,17 @@ public class RightPanel extends JPanel {
 	
 	private WordPanel wordPanel;
 	private JPanel panelSubmit;
+	private JButton buttonSubmit;
 	
 	public RightPanel() {
 		wordPanel = new WordPanel();
 		panelSubmit = new JPanel();
+		buttonSubmit = new JButton("Submit");
 		
 		panelSubmit.setLayout(new GridLayout(1,3));
 
 		panelSubmit.add(new JLabel(""));
-		panelSubmit.add(new JButton("Submit"));
+		panelSubmit.add(buttonSubmit);
 		panelSubmit.add(new JLabel(""));
 		this.setLayout(new BorderLayout());
 		this.add(wordPanel, BorderLayout.CENTER);
@@ -42,5 +44,9 @@ public class RightPanel extends JPanel {
 
 	public void setPanelSubmit(JPanel panelSubmit) {
 		this.panelSubmit = panelSubmit;
+	}
+
+	public JButton getButtonSubmit() {
+		return buttonSubmit;
 	}
 }

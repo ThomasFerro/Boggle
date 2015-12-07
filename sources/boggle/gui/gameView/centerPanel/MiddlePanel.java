@@ -26,4 +26,16 @@ public class MiddlePanel extends JPanel {
 		this.add(rightPanel, BorderLayout.EAST);
 		this.add(centerPanel, BorderLayout.CENTER);
 	}
+
+	public LeftPanel getLeftPanel() {
+		return leftPanel;
+	}
+
+	public CenterPanel getCenterPanel() {
+		return centerPanel;
+	}
+
+	public RightPanel getRightPanel() {
+		return rightPanel;
+	}
 }

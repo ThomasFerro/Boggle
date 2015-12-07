@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.Scanner;
 
 import boggle.game.entity.Human;
 import boggle.game.entity.Player;
@@ -17,7 +16,7 @@ import boggle.words.LexicalTree;
  * @author leleuj ferrot
  *
  */
-public abstract class Game {
+public abstract class Game implements Runnable{
 	//TODO
 	private int round;
 	private Player[] players;
@@ -28,6 +27,7 @@ public abstract class Game {
 	private int[] pointGrid;
 	private String gridPath;
 	private String treePath;
+	private boolean submited;
 
 	Game(Player[] players, File config) {
 		this.round = 0;
@@ -97,8 +97,8 @@ public abstract class Game {
 		return true;
 	}
 
-	protected void run() {
-		do {
+	public void run() {
+		while(!isFinished()) {
 			this.round++;
 			for(int i = 0; i < players.length; i++) {
 				//Shake de la grille:
@@ -117,16 +117,19 @@ public abstract class Game {
 				//Tour d'un joueur
 				currentPlayer = players[i];
 				currentPlayer.getWords().clear();
+				submited = false;
 
 				//Actions joueur
-				playerInput();
+				while(!isSubmited()) {
+					System.out.print("");
+				}
 
 				//Fin du tour
 				endTurn();
 
 				System.out.println("Player :"+ currentPlayer.getName() +"; Score :" +currentPlayer.getScore()+"\n");
 			}
-		}while(!isFinished());
+		}
 	}
 
 	protected void endTurn() {
@@ -158,15 +161,12 @@ public abstract class Game {
 		return 0;
 	}
 	
-	private void playerInput() {
-		//Mode textuel : Attente entrée jusqu'à "Submit":
-		System.out.println(currentPlayer.getName()+": Enter your words :");
-		Scanner sc = new Scanner(System.in);
-		String mot = "";
-		do {
-			mot = sc.nextLine();
-			currentPlayer.addWord(mot);
-		}while(!mot.equalsIgnoreCase("SUBMIT"));
+	public boolean isSubmited() {
+		return submited;
+	}
+	
+	public void setSubmited() {
+		submited = true;
 	}
 
 	protected abstract boolean isFinished();

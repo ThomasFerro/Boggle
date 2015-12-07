@@ -8,7 +8,10 @@ import boggle.game.controller.gameConfig.GameConfig;
 import boggle.game.controller.listener.buttonListener.ButtonBackToMenuListener;
 import boggle.game.controller.listener.buttonListener.ButtonConfigListener;
 import boggle.game.controller.listener.buttonListener.ButtonPlayListener;
+import boggle.game.controller.listener.buttonListener.ButtonSubmitListener;
 import boggle.game.model.Game;
+import boggle.game.model.PointGame;
+import boggle.game.model.RoundGame;
 import boggle.gui.window.Window;
 
 public class GameEngine implements Observer{
@@ -16,6 +19,7 @@ public class GameEngine implements Observer{
 	private Game game;
 	private File configFile;
 	private GameConfig gameConfig;
+	private Thread gameThread;
 	
 	public GameEngine() {
 		window = new Window();
@@ -36,31 +40,47 @@ public class GameEngine implements Observer{
 	public void loadGame() {
 		window.loadGame();
 		window.getGamePanel().getNorthPanel().getBackToMenu().addActionListener(new ButtonBackToMenuListener(window.getGamePanel().getNorthPanel(), this));
+		window.getGamePanel().getCenterPanel().getRightPanel().getButtonSubmit().addActionListener(new ButtonSubmitListener(window.getGamePanel().getCenterPanel().getRightPanel(), this));
 	}
 	
 	public void update(Observable obs, Object obj) {
 		if(obs instanceof ButtonConfigListener) {
 			//Change the configFile
 			configFile = new File(obj.toString());
-			System.out.println("test");
 		}
 		else if(obs instanceof ButtonPlayListener) {
 			//Get the player list and the limits
-			gameConfig = (GameConfig)obj;
-			if(gameConfig.getGameType().equals("RoundGame")) {
-				//LoadGamePanel + new RoundGame(infos)
-				this.loadGame();
-			}
-			else {
-				if(gameConfig.getGameType().equals("PointGame")) {
-					//LoadGamePanel + new PointGame(infos)
-					this.loadGame();
-				}
-			}
+			updateButtonPlay((GameConfig)obj);			
 		}
 		else if (obs instanceof ButtonBackToMenuListener) {
 			this.loadMenu();
 		}
+		else if (obs instanceof ButtonSubmitListener) {
+			this.updateButtonSubmit();
+		}
+	}
+	
+	private void updateButtonPlay(GameConfig gameConfig) {
+		if(gameConfig.getGameType().equals("RoundGame")) {
+			//LoadGamePanel + new RoundGame(infos)
+			this.loadGame();
+			game = new RoundGame(gameConfig.getPlayers(),configFile , gameConfig.getLimit());
+			gameThread = new Thread(game);
+			gameThread.start();
+		}
+		else {
+			if(gameConfig.getGameType().equals("PointGame")) {
+				//LoadGamePanel + new PointGame(infos)
+				this.loadGame();
+				game = new PointGame(gameConfig.getPlayers(),configFile , gameConfig.getLimit());
+				gameThread = new Thread(game);
+				gameThread.start();
+			}
+		}
+	}
+	
+	private void updateButtonSubmit() {
+		game.setSubmited();
 	}
 
 	public static void main(String[] args) {
