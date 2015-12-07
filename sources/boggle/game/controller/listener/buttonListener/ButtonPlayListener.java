@@ -29,7 +29,11 @@ public class ButtonPlayListener extends Observable implements ActionListener {
 		String name;
 		for(j = 0; j < nbHuman; j++) {
 			name = JOptionPane.showInputDialog("Player "+(j+1)+":");
-			players[j] = new Human(name); 
+			if (name != null) {
+				players[j] = new Human(name);
+			} else {
+				players[j] = new Human("Player " + (j + 1));
+			}
 		}
 		for(int k = j; k < players.length; k++) {
 			//TODO : Après implémentation des IA, avec vérification de la difficulté
