@@ -86,6 +86,7 @@ public class GameEngine implements Observer{
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().setCurrentPlayer(this.game.getCurrentPlayer().getName());
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().getPanelScore().update();
 		this.window.getGamePanel().revalidate();
+		this.window.getGamePanel().repaint();
 	}
 
 	public static void main(String[] args) {
