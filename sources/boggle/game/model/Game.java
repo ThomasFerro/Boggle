@@ -17,7 +17,6 @@ import boggle.words.LexicalTree;
  *
  */
 public abstract class Game implements Runnable {
-	//TODO
 	private int round;
 	private Player[] players;
 	private Player currentPlayer;
@@ -101,6 +100,11 @@ public abstract class Game implements Runnable {
 		while(!isFinished()) {
 			this.round++;
 			for(int i = 0; i < players.length; i++) {
+				//Tour d'un joueur
+				currentPlayer = players[i];
+				currentPlayer.getWords().clear();
+				submited = false;
+				
 				//Shake de la grille:
 				grid.shake();
 				
@@ -113,10 +117,6 @@ public abstract class Game implements Runnable {
 					System.out.println();
 				}
 				// FIN A SUPPRIMER ---------------------------
-				//Tour d'un joueur
-				currentPlayer = players[i];
-				currentPlayer.getWords().clear();
-				submited = false;
 
 				//Actions joueur
 				while(!isSubmited()) {

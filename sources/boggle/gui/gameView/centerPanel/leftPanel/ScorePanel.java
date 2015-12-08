@@ -37,8 +37,6 @@ public class ScorePanel extends JPanel {
 		Collections.sort(players, Collections.reverseOrder());
 		
 		for(Player p : players) {
-			if(p.getName().equals("Un"))
-				p.setScore(p.getScore()+1);
 			scoreLabelTmp = new JLabel(p.getName() + "\t : " + p.getScore() + "pts");
 			scoreLabelTmp.setFont(new Font(scoreLabelTmp.getFont().getFontName(), Font.BOLD, 15));
 			this.add(scoreLabelTmp);

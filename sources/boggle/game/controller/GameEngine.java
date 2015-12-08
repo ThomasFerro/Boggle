@@ -17,7 +17,7 @@ import boggle.gui.gameView.centerPanel.centerPanel.DiceButton;
 import boggle.gui.window.Window;
 import boggle.words.Dice;
 
-public class GameEngine implements Observer{
+public class GameEngine implements Observer {
 	private Window window;
 	private Game game;
 	private File configFile;
@@ -50,11 +50,6 @@ public class GameEngine implements Observer{
 		this.game = game;
 		gameThread = new Thread(this.game);
 		gameThread.start();
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().init(this.game.getGrid());
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().setCurrentPlayer(this.game.getCurrentPlayer().getName());
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().getPanelScore().init(this.game.getPlayers());
@@ -82,7 +77,8 @@ public class GameEngine implements Observer{
 		}
 		else if (obs instanceof ButtonSubmitListener) {
 			this.updateButtonSubmit();
-		}else if (obs instanceof ButtonDiceListener) {
+		}
+		else if (obs instanceof ButtonDiceListener) {
 			System.out.println(((Dice)obj).getCurrentFace());
 		}
 	}
@@ -102,6 +98,11 @@ public class GameEngine implements Observer{
 	
 	private void updateButtonSubmit() {
 		game.setSubmited();
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().update();
 		//this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().init(this.game.getGrid());
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().setCurrentPlayer(this.game.getCurrentPlayer().getName());
