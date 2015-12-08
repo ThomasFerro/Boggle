@@ -1,13 +1,14 @@
-package boggle.game;
+package boggle.game.model;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.Scanner;
 
-import boggle.words.Letter;
-import boggle.words.LetterGrid;
+import boggle.game.entity.Human;
+import boggle.game.entity.Player;
+import boggle.words.Dice;
+import boggle.words.DiceGrid;
 import boggle.words.LexicalTree;
 
 /**
@@ -15,17 +16,17 @@ import boggle.words.LexicalTree;
  * @author leleuj ferrot
  *
  */
-public abstract class Game {
-	//TODO
+public abstract class Game implements Runnable {
 	private int round;
 	private Player[] players;
 	private Player currentPlayer;
-	private LetterGrid grid;
+	private DiceGrid grid;
 	private LexicalTree tree;
 	private int minSize;
 	private int[] pointGrid;
 	private String gridPath;
 	private String treePath;
+	private boolean submited;
 
 	Game(Player[] players, File config) {
 		this.round = 0;
@@ -35,11 +36,6 @@ public abstract class Game {
 			System.out.println("Game initialization error");
 	}
 
-	/**
-	 * 
-	 * @param config The config file (eg : regles-4x4.config)
-	 * @return False if the load has failed, true otherwise
-	 */
 	private boolean loadConfigs(File config) {
 		//Load the properties :
 		Properties props;
@@ -87,14 +83,10 @@ public abstract class Game {
 		return false;
 	}
 
-	/**
-	 * Create the grid and the tree with the loadConfig properties
-	 * @return True if the tree and the grid succesfully loaded
-	 */
 	private boolean launch() {
 		try {
-			//Créer le LetterGrid :
-			grid = new LetterGrid(minSize+1,gridPath);
+			//Créer le DiceGrid :
+			grid = new DiceGrid(minSize+1,gridPath);
 			//Créer l'arbre:
 			tree = LexicalTree.readWords(treePath);
 		}
@@ -104,44 +96,40 @@ public abstract class Game {
 		return true;
 	}
 
-	/**
-	 * For each player : shake the grid, wait for the player to play his turn then call the endTurn method while the end game condition is false.
-	 */
-	protected void run() {
-		do {
+	public void run() {
+		while(!isFinished()) {
 			this.round++;
 			for(int i = 0; i < players.length; i++) {
+				//Tour d'un joueur
+				currentPlayer = players[i];
+				currentPlayer.getWords().clear();
+				submited = false;
+				
 				//Shake de la grille:
 				grid.shake();
 				
 				//A SUPPRIMER --------------------------------
-				Letter[][] lgrid = grid.getGrid();
+				Dice[][] lgrid = grid.getGrid();
 				for (int j = 0; j < lgrid.length; j ++) {
 					for (int k = 0; k < lgrid[j].length; k++) {
-						System.out.print(lgrid[j][k].getCharacter());
+						System.out.print(lgrid[j][k].getCurrentFace());
 					}
 					System.out.println();
 				}
 				// FIN A SUPPRIMER ---------------------------
-				
-				//Tour d'un joueur
-				currentPlayer = players[i];
-				currentPlayer.getWords().clear();
 
 				//Actions joueur
-				playerInput();
-
+				while(!isSubmited()) {
+					System.out.print("");
+				}
 				//Fin du tour
 				endTurn();
 
 				System.out.println("Player :"+ currentPlayer.getName() +"; Score :" +currentPlayer.getScore()+"\n");
 			}
-		}while(!isFinished());
+		}
 	}
 
-	/**
-	 * Check if the words are valid with the tree then attribute the points by calling the checkScore method
-	 */
 	protected void endTurn() {
 		//Pour chaque mot de la liste
 		for(String word : currentPlayer.getWords()) {
@@ -153,11 +141,6 @@ public abstract class Game {
 		}
 	}
 
-	/**
-	 * Check the length of the word and return the points according to the point grid.
-	 * @param word : The word to check.
-	 * @return The value of that word.
-	 */
 	private int checkScore(String word) {
 		int sizeTab = pointGrid.length;
 		
@@ -176,24 +159,14 @@ public abstract class Game {
 		return 0;
 	}
 	
-	/**
-	 * For textual mode, wait for the players' input until he type "submit".
-	 */
-	private void playerInput() {
-		//Mode textuel : Attente entrée jusqu'à "Submit":
-		System.out.println(currentPlayer.getName()+": Enter your words :");
-		Scanner sc = new Scanner(System.in);
-		String mot = "";
-		do {
-			mot = sc.nextLine();
-			currentPlayer.addWord(mot);
-		}while(!mot.equalsIgnoreCase("SUBMIT"));
+	public boolean isSubmited() {
+		return submited;
+	}
+	
+	public void setSubmited() {
+		submited = true;
 	}
 
-	/**
-	 * Check if the round or point limit is reached.
-	 * @return True if the limit is reached.
-	 */
 	protected abstract boolean isFinished();
 
 	//-------------------------------------------
@@ -210,7 +183,7 @@ public abstract class Game {
 		return players;
 	}
 
-	public LetterGrid getGrid() {
+	public DiceGrid getGrid() {
 		return grid;
 	}
 
@@ -227,14 +200,4 @@ public abstract class Game {
 	}
 
 	//-------------------------------------------
-
-	public static void main(String[] args) {
-		//Tests Game
-		Player[] players = new Player[3];
-		players[0] = new Human("Billy");
-		players[1] = new Human("John");
-		players[2] = new Human("Oui");
-		Game game = new RoundGame(players, new File("config/regles-4x4.config"), 1);
-	}
-
 }
