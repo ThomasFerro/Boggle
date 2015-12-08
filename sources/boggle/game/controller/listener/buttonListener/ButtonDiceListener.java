@@ -9,9 +9,11 @@ import boggle.gui.gameView.centerPanel.centerPanel.DiceButton;
 import boggle.gui.gameView.northPanel.NorthPanel;
 
 public class ButtonDiceListener extends Observable implements ActionListener {
-
+	private GameEngine engine;
+	
 	public ButtonDiceListener(GameEngine engine) {
-		addObserver(engine);
+		//addObserver(engine);
+		this.engine = engine;
 	}
 	
 	@Override

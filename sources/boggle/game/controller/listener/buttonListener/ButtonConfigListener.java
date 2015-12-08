@@ -13,11 +13,12 @@ import boggle.gui.menu.left.LeftMenu;
 public class ButtonConfigListener extends Observable implements ActionListener{
 	private LeftMenu leftMenu;
 	private JFileChooser fileChooser;
+	private GameEngine engine;
 	
 	public ButtonConfigListener(LeftMenu leftMenu, GameEngine engine) {
 		this.leftMenu = leftMenu;
-		//Add the engine as the observer
-		addObserver(engine);
+		this.engine = engine;
+		//addObserver(engine);
 		fileChooser = new JFileChooser();
 	}
 
