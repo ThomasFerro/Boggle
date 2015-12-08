@@ -5,18 +5,19 @@ import java.util.Random;
 public class Dice {
 	private char [] values;
 	private int currentFaceId;	//Current face's id of values' table
-	private boolean isUsed;
+	private boolean used;
+	private boolean locked;
 	
 	public Dice() {
 		values = null;
 		currentFaceId = -1;
-		isUsed = false;
+		used = false;
 	}
 	
 	public Dice(char [] values) {
 		this.values = values;
 		currentFaceId = -1;
-		isUsed = false;
+		used = false;
 	}
 	
 	public void shake() {
@@ -45,6 +46,23 @@ public class Dice {
 	}
 	
 	public boolean isUsed() {
-		return isUsed;
+		return used;
+	}
+
+	public boolean isLocked() {
+		return locked;
+	}
+
+	public void setLocked(boolean isLocked) {
+		this.locked = isLocked;
+	}
+	
+	public void setUsed(boolean isUsed) {
+		this.used = isUsed;
+	}
+
+	//Face bloquée : [], Face utilisée : {}
+	public String toString() {
+		return used ? "{" + getCurrentFace() + "}" : (isLocked() ? "[" + getCurrentFace() + "]" : " " + getCurrentFace() + " ");
 	}
 }
