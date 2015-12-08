@@ -7,12 +7,15 @@ import java.util.Observer;
 import boggle.game.controller.gameConfig.GameConfig;
 import boggle.game.controller.listener.buttonListener.ButtonBackToMenuListener;
 import boggle.game.controller.listener.buttonListener.ButtonConfigListener;
+import boggle.game.controller.listener.buttonListener.ButtonDiceListener;
 import boggle.game.controller.listener.buttonListener.ButtonPlayListener;
 import boggle.game.controller.listener.buttonListener.ButtonSubmitListener;
 import boggle.game.model.Game;
 import boggle.game.model.PointGame;
 import boggle.game.model.RoundGame;
+import boggle.gui.gameView.centerPanel.centerPanel.DiceButton;
 import boggle.gui.window.Window;
+import boggle.words.Dice;
 
 public class GameEngine implements Observer{
 	private Window window;
@@ -38,6 +41,8 @@ public class GameEngine implements Observer{
 	}
 	
 	public void loadGame(Game game) {
+		if (gameThread != null)
+			gameThread.interrupt();
 		window.loadGame();
 		window.getGamePanel().getNorthPanel().getBackToMenu().addActionListener(new ButtonBackToMenuListener(window.getGamePanel().getNorthPanel(), this));
 		window.getGamePanel().getCenterPanel().getRightPanel().getButtonSubmit().addActionListener(new ButtonSubmitListener(window.getGamePanel().getCenterPanel().getRightPanel(), this));
@@ -45,9 +50,22 @@ public class GameEngine implements Observer{
 		this.game = game;
 		gameThread = new Thread(this.game);
 		gameThread.start();
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().init(this.game.getGrid());
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().setCurrentPlayer(this.game.getCurrentPlayer().getName());
-		this.window.getGamePanel().getCenterPanel().getLeftPanel().getPanelScore().init(game.getPlayers());
+		this.window.getGamePanel().getCenterPanel().getLeftPanel().getPanelScore().init(this.game.getPlayers());
+		
+		//Add the listeners to the DiceButton
+		DiceButton[][] buttons = (DiceButton[][])this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().getButtons();
+		for(DiceButton[] ligne : buttons) {
+			for(DiceButton button : ligne) {
+				button.addActionListener(new ButtonDiceListener(this));
+			}
+		}
 	}
 	
 	public void update(Observable obs, Object obj) {
@@ -64,6 +82,8 @@ public class GameEngine implements Observer{
 		}
 		else if (obs instanceof ButtonSubmitListener) {
 			this.updateButtonSubmit();
+		}else if (obs instanceof ButtonDiceListener) {
+			System.out.println(((Dice)obj).getCurrentFace());
 		}
 	}
 	
@@ -82,7 +102,8 @@ public class GameEngine implements Observer{
 	
 	private void updateButtonSubmit() {
 		game.setSubmited();
-		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().init(this.game.getGrid());
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().update();
+		//this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().init(this.game.getGrid());
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().setCurrentPlayer(this.game.getCurrentPlayer().getName());
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().getPanelScore().update();
 		this.window.getGamePanel().revalidate();

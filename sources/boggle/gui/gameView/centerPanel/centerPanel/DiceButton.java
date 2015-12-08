@@ -9,20 +9,20 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import boggle.words.Dice;
+
 public class DiceButton extends JButton {
 
 	private final int FONT_SIZE = 25;
-	private String name;
-	private boolean used;
 	private boolean locked;
+	private Dice dice;
 	
-	public DiceButton(String name) {
-		super(name);
+	public DiceButton(Dice d) {
+		super(""+d.getCurrentFace());
+		this.dice = d;
 		this.setSize(new Dimension(50,50));
 		this.setPreferredSize(new Dimension(50,50));
 		this.setBorder(null);
-		this.name = name;
-		this.used = false;
 		this.locked = false;
 	}
 
@@ -33,7 +33,7 @@ public class DiceButton extends JButton {
         if (locked) {
         	img = new ImageIcon("img/DisableDice.png").getImage();
         } else {
-	        if (! used) {
+	        if (! dice.isUsed()) {
 	        	img = new ImageIcon("img/EnableDice.png").getImage();
 	        }
 	        else {
@@ -44,32 +44,32 @@ public class DiceButton extends JButton {
         	return;
         g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
         FontMetrics fm = getFontMetrics(g.getFont());
-        int width = fm.stringWidth(name);
+        int width = fm.stringWidth(""+dice.getCurrentFace());
         int height = fm.getHeight();
-        g.drawString(name,  getWidth() / 2 - width / 2, getHeight()/2 + height / 4);
+        g.drawString(""+dice.getCurrentFace(),  getWidth() / 2 - width / 2, getHeight()/2 + height / 4);
     }
-
-	public String getName() {
-		return name;
+	
+	public void updateName() {
+		
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getName() {
+		return ""+dice.getCurrentFace();
 	}
 
 	public boolean isUsed() {
-		return used;
+		return dice.isUsed();
 	}
-
-	public void setUsed(boolean used) {
-		this.used = used;
-	}
-
+	
 	public boolean isLocked() {
 		return locked;
 	}
 
 	public void setLock(boolean locked) {
 		this.locked = locked;
+	}
+
+	public Dice getDice() {
+		return this.dice;
 	}
 }

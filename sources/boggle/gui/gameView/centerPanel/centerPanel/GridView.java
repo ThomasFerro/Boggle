@@ -24,10 +24,15 @@ public class GridView extends JPanel {
 		
 		for (int i = 0; i < lengthX; i++) {
 			for (int j = 0; j < lengthY; j++) {
-				buttons[i][j] = new DiceButton("" + diceGrid.getGrid()[i][j].getCurrentFace());
+				buttons[i][j] = new DiceButton(diceGrid.getGrid()[i][j]);
 				add(buttons[i][j]);
 			}
 		}
+	}
+	
+	public void update() {
+		this.revalidate();
+		this.repaint();
 	}
 
 	public JButton[][] getButtons() {

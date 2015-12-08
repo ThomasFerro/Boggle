@@ -16,7 +16,7 @@ import boggle.words.LexicalTree;
  * @author leleuj ferrot
  *
  */
-public abstract class Game implements Runnable{
+public abstract class Game implements Runnable {
 	//TODO
 	private int round;
 	private Player[] players;
@@ -200,13 +200,4 @@ public abstract class Game implements Runnable{
 	}
 
 	//-------------------------------------------
-
-	public static void main(String[] args) {
-		//Tests Game
-		Player[] players = new Player[3];
-		players[0] = new Human("Billy");
-		players[1] = new Human("John");
-		players[2] = new Human("Oui");
-		Game game = new RoundGame(players, new File("config/regles-4x4.config"), 1);
-	}
 }
