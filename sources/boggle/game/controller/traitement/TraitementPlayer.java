@@ -10,10 +10,11 @@ public class TraitementPlayer extends Traitement{
 		case DONNER_MAIN :
 			return player.plays();
 		case PRENDRE_MAIN :
-			return MessageRetour.OK;
+			return player.stopPlaying();
 		case CALCULER_SCORE : 
 			return MessageRetour.OK;
-		default: return MessageRetour.KO;
+		default: 
+			return MessageRetour.KO;
 		}
 	}
 }

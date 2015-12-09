@@ -2,6 +2,8 @@ package boggle.game.model;
 
 import java.io.File;
 
+import boggle.game.controller.traitement.Command;
+import boggle.game.controller.traitement.Message;
 import boggle.game.entity.Player;
 
 /**
@@ -19,6 +21,8 @@ public class RoundGameV2 extends GameV2 {
 	}
 
 	protected boolean isFinished() {
+		if (this.getRound() >= MAX_ROUNDS)
+			this.notify(new Command("GAME", Message.ARRETER_PARTIE));
 		return !(this.getRound() < MAX_ROUNDS);
 	}
 

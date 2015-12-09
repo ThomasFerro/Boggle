@@ -38,7 +38,7 @@ public class GameEngineV2 implements Observer{
 		Command c = (Command)arg1;
 		//TODO : Remplacer par une exception
 		if(execute(c.getTraitementName(), c.getMessage(),arg0) == MessageRetour.KO)
-			System.out.println("ERREUR!!");
+			System.out.println("KO : Observable : " + arg0 + " Commande : " + c.getMessage());
 	}	
 	
 	private MessageRetour execute(String key, Object o, Object parent) {

@@ -8,7 +8,8 @@ public class TraitementGrid extends Traitement{
 		DiceGrid grid = (DiceGrid)parent;
 		switch((Message)o) {
 		case MELANGER_GRILLE : 
-			return MessageRetour.OK;
+			System.out.println("Shake ton booty");
+			return grid.shake();
 		case BLOQUER_GRILLE : 
 			return MessageRetour.OK;
 		default : return MessageRetour.KO;

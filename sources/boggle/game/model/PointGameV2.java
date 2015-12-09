@@ -2,6 +2,8 @@ package boggle.game.model;
 
 import java.io.File;
 
+import boggle.game.controller.traitement.Command;
+import boggle.game.controller.traitement.Message;
 import boggle.game.entity.Player;
 
 /**
@@ -20,8 +22,10 @@ public class PointGameV2 extends GameV2 {
 
 	protected boolean isFinished() {
 		for(Player player : getPlayers()) {
-			if(player.getScore() >= MAX_POINTS) 
+			if(player.getScore() >= MAX_POINTS) {
+				this.notify(new Command("GAME", Message.ARRETER_PARTIE));
 				return true; 
+			}
 		}
 		return false;
 	}

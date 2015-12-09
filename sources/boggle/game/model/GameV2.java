@@ -3,6 +3,9 @@ package boggle.game.model;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Observable;
 import java.util.Properties;
 
@@ -11,10 +14,11 @@ import boggle.game.controller.traitement.Command;
 import boggle.game.controller.traitement.Message;
 import boggle.game.entity.Human;
 import boggle.game.entity.Player;
+import boggle.words.Dice;
 import boggle.words.DiceGrid;
 import boggle.words.LexicalTree;
 
-public class GameV2 extends Observable{
+public abstract class GameV2 extends Observable{
 	private int round;
 	private Player[] players;
 	private Player currentPlayer;
@@ -25,7 +29,7 @@ public class GameV2 extends Observable{
 	private int[] pointGrid;
 	private String gridPath;
 	private String treePath;
-	
+
 	public GameV2(Player[] players, File config) {
 		this.gameEngine = new GameEngineV2(this);
 		this.addObserver(gameEngine);
@@ -37,46 +41,71 @@ public class GameV2 extends Observable{
 		this.round = 0;
 		this.loadConfigs(config);
 	}
-	
+
 	public void demarrer() {
 		//Load the properties then run the game:
 		try {
 			//Créer le DiceGrid :
-			grid = new DiceGrid(minSize+1,gridPath);
+			grid = new DiceGrid(minSize+1,gridPath, this.getGameEngine());
 			//Créer l'arbre:
 			tree = LexicalTree.readWords(treePath);
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
+
 		//Run the game
 		System.out.println("Running...");
-		
-		for(int i = 0; i < players.length; i++) {
-			currentPlayer = players[i];
-			currentPlayer.notify(new Command("PLAYER", Message.DONNER_MAIN));
-			currentPlayer.notify(new Command("PLAYER", Message.PRENDRE_MAIN));
-			//TODO : Calcul du score avec endTurn() pas bon, trouver méthode avec le notify ci-dessous
-			currentPlayer.notify(new Command("PLAYER", Message.CALCULER_SCORE));
-		}
-		this.notify(new Command("GAME", Message.INCREMENTER_TOUR));
+		do {
+			for(int i = 0; i < players.length; i++) {
+				//Actions sur la grille :
+				grid.notify(new Command("GRID", Message.MELANGER_GRILLE));
+				
+				//A SUPPRIMER --------------------------------
+				Dice[][] lgrid = grid.getGrid();
+				for (int j = 0; j < lgrid.length; j ++) {
+					for (int k = 0; k < lgrid[j].length; k++) {
+						System.out.print(lgrid[j][k].getCurrentFace());
+					}
+					System.out.println();
+				}
+				// FIN A SUPPRIMER ---------------------------
+				
+				//Actions sur le joueur:
+				currentPlayer = players[i];
+				currentPlayer.notify(new Command("PLAYER", Message.DONNER_MAIN));
+				while(currentPlayer.isPlaying()) {
+					System.out.print("");
+				}
+				endTurn();
+				//TODO : Une fois le Timer en place : Si fin du timer :
+				//currentPlayer.notify(new Command("PLAYER", Message.PRENDRE_MAIN));
+				currentPlayer.notify(new Command("PLAYER", Message.CALCULER_SCORE));
+			}
+			this.notify(new Command("GAME", Message.INCREMENTER_TOUR));
+			System.out.println("Fin du tour.");
+		}while(!isFinished());
+		System.out.println("Fin de la partie.");
 	}
 	
+	protected abstract boolean isFinished();
+
 	public void arreter() {
-		//TODO : Arreter une partie ?? 
+		//Compare les points de chacun, établie le gagnant.
+		List<Player> p = Arrays.asList(players);
+		Collections.sort(p, Collections.reverseOrder());
+		System.out.println("GAGNANT : " + p.get(0).getName() + " AVEC " + p.get(0).getScore() + "POINTS");
 	}
-	
+
 	public void incrementer_tour() {
 		this.round++;
-		//TODO : Calculer score ici ??
 	}
-	
+
 	public void notify(Object o) {
 		this.setChanged();
 		this.notifyObservers(o);
 	}
-	
+
 	private boolean loadConfigs(File config) {
 		//Load the properties :
 		Properties props;
@@ -123,7 +152,7 @@ public class GameV2 extends Observable{
 		}
 		return false;
 	}
-	
+
 	protected void endTurn() {
 		//Pour chaque mot de la liste
 		for(String word : currentPlayer.getWords()) {
@@ -134,14 +163,14 @@ public class GameV2 extends Observable{
 			}
 		}
 	}
-	
+
 	private int checkScore(String word) {
 		int sizeTab = pointGrid.length;
-		
+
 		//On ne donne pas de point si le mot est plus petit que la taille minimum
 		//Si le mot est plus grand que le maximum de lettres, donner le maximum de points
 		//Sinon, on donne le nombre de points correspondants
-		
+
 		if(word.length() >= minSize) {
 			if(word.length() >= sizeTab) 
 				return pointGrid[sizeTab-1];
@@ -168,8 +197,12 @@ public class GameV2 extends Observable{
 	public GameEngineV2 getGameEngine() {
 		return gameEngine;
 	}
-	
+
 	public DiceGrid getGrid() {
 		return this.grid;
+	}
+
+	public LexicalTree getTree() {
+		return tree;
 	}
 }
