@@ -91,6 +91,8 @@ public class GameEngine implements Observer {
 	
 	private void updateButtonAddWord() {
 		game.getCurrentPlayer().addWord(motCourant);
+		window.getGamePanel().getCenterPanel().getRightPanel().getWordPanel().add(motCourant);
+		window.getGamePanel().getCenterPanel().getRightPanel().getWordPanel().update();
 		window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().resetGrid();
 		motCourant = "";
 		window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().repaint();
@@ -146,6 +148,7 @@ public class GameEngine implements Observer {
 		window.getGamePanel().revalidate();
 		window.getGamePanel().repaint();
 		motCourant = "";
+		window.getGamePanel().getCenterPanel().getRightPanel().getWordPanel().clear();
 	}
 
 	public void addDiceButtonListener(DiceButton[][] buttons) {
