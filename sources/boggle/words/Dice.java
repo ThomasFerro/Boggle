@@ -18,19 +18,9 @@ public class Dice {
 		this.y = -1;
 	}
 	
-	public Dice(int x, int y) {
-		this();
+	public Dice(int x, int y, char [] values) {
 		this.x = x;
 		this.y = y;
-	}
-	
-	public Dice(char [] values) {
-		this();
-		this.values = values;
-	}
-	
-	public Dice(int x, int y, char [] values) {
-		this(x, y);
 		this.values = values;
 	}
 	
@@ -45,14 +35,6 @@ public class Dice {
 		else {
 			//Exception ..
 		}
-	}
-	
-	public void setValues(char[] values) {
-		this.values = values;
-	}
-
-	public int getCurrentFaceId() {
-		return currentFaceId;
 	}
 	
 	public char getCurrentFace() {

@@ -13,11 +13,6 @@ public class DiceGrid {
 	private Dice[][] grid;
 	private int size;
 	
-	public DiceGrid(int size) {
-		this.size = size;
-		grid = new Dice[size][size];
-	}
-	
 	public DiceGrid(int size, String path) {
 		this.size = size;
 		grid = new Dice[size][size];
