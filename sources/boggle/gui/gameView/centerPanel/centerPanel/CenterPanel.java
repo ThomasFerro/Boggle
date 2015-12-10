@@ -12,10 +12,12 @@ public class CenterPanel extends JPanel {
 	private JPanel southPanel;
 	private JButton buttonAddWord;
 	private JButton buttonClear;
+	private JTextField wordTextField;
 	
 	public CenterPanel() {
 		gridView = new GridView();
 		southPanel = new JPanel();
+		wordTextField = new JTextField();
 		
 		
 		BorderLayout borderLayoutSouth = new BorderLayout();
@@ -26,7 +28,7 @@ public class CenterPanel extends JPanel {
 		buttonClear = new JButton("Clear");
 		
 		southPanel.setLayout(borderLayoutSouth);
-		southPanel.add(new JTextField(), BorderLayout.NORTH);
+		southPanel.add(wordTextField, BorderLayout.NORTH);
 		southPanel.add(buttonClear, BorderLayout.WEST);
 		southPanel.add(buttonAddWord, BorderLayout.EAST);
 		
@@ -61,5 +63,9 @@ public class CenterPanel extends JPanel {
 
 	public JButton getButtonClear() {
 		return buttonClear;
+	}
+
+	public JTextField getWordTextField() {
+		return wordTextField;
 	}
 }

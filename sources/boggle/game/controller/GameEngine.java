@@ -52,13 +52,15 @@ public class GameEngine implements Observer {
 		window.getGamePanel().getCenterPanel().getCenterPanel().getButtonAddWord().addActionListener(new ButtonAddWordListener(this));
 		window.getGamePanel().getNorthPanel().getBackToMenu().addActionListener(new ButtonBackToMenuListener(window.getGamePanel().getNorthPanel(), this));
 		window.getGamePanel().getCenterPanel().getRightPanel().getButtonSubmit().addActionListener(new ButtonSubmitListener(window.getGamePanel().getCenterPanel().getRightPanel(), this));
-
+		window.getGamePanel().getCenterPanel().getCenterPanel().getWordTextField().setEditable(false);
+		
 		this.game = game;
 		gameThread = new Thread(this.game);
 		gameThread.start();
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().init(this.game.getGrid());
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().setCurrentPlayer(this.game.getCurrentPlayer().getName());
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().getPanelScore().init(this.game.getPlayers());
+		
 
 		//Add the listeners to the DiceButton
 		DiceButton[][] buttons = (DiceButton[][])this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().getButtons();
@@ -79,6 +81,7 @@ public class GameEngine implements Observer {
 			updateButtonPlay((GameConfig)obj);			
 		}
 		else if (obs instanceof ButtonBackToMenuListener) {
+			this.motCourant = "";
 			this.loadMenu();
 		}
 		else if (obs instanceof ButtonSubmitListener) {
@@ -97,22 +100,24 @@ public class GameEngine implements Observer {
 	
 	private void updateButtonAddWord() {
 		game.getCurrentPlayer().addWord(motCourant);
-		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().resetGrid();
 		motCourant = "";
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getWordTextField().setText(motCourant);
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().resetGrid();
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().repaint();
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().revalidate();
 	}
 	
 	public void updateButtonClear() {
-		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().resetGrid();
 		motCourant = "";
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getWordTextField().setText(motCourant);
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().resetGrid();
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().repaint();
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().revalidate();
 	}
 
 	private void updateButtonDice(Dice d) {
 		motCourant += d.getCurrentFace();
-		System.out.println("Mot : " + motCourant);
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getWordTextField().setText(motCourant);
 		game.getGrid().unlock();
 		game.getGrid().lock(d.getX(), d.getY());
 		game.getGrid().getDice(d.getX(), d.getY()).setUsed(true);
@@ -155,6 +160,7 @@ public class GameEngine implements Observer {
 		this.window.getGamePanel().revalidate();
 		this.window.getGamePanel().repaint();
 		this.motCourant = "";
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getWordTextField().setText(motCourant);
 	}
 
 	public static void main(String[] args) {

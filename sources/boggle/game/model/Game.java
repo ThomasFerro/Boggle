@@ -47,11 +47,11 @@ public abstract class Game implements Runnable {
 			this.minSize = Integer.parseInt(props.getProperty("taille-min"));
 
 			//Points : 
-			String[] tab = props.getProperty("taille-min").split(",");
+			String[] tab = props.getProperty("points").split(",");
 			pointGrid = new int[tab.length];
-			for(int i = 0; i < tab.length; i++) {
+			for(int i = 0; i < tab.length; i++) 
 				pointGrid[i] = Integer.parseInt(tab[i]);
-			}
+			
 
 			//Des :
 			try {
@@ -151,10 +151,7 @@ public abstract class Game implements Runnable {
 		if(word.length() >= minSize) {
 			if(word.length() >= sizeTab) 
 				return pointGrid[sizeTab-1];
-			for(int i = 0; i < sizeTab; i++) {
-				if(word.length() == (minSize+i)) 
-					return pointGrid[i];
-			}
+			return pointGrid[word.length()-minSize];
 		}	
 		return 0;
 	}
