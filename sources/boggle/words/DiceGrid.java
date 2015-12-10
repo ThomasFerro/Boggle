@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Random;
 
-public class DiceGrid extends Observable{
+public class DiceGrid {
 	private Dice[][] grid;
 	private int size;
 	
@@ -69,8 +69,6 @@ public class DiceGrid extends Observable{
 				grid[i][j].setCoord(i, j);
 			}
 		}
-		setChanged();
-		notifyObservers(this);
 	}
 	
 	public boolean lock(int x, int y) {

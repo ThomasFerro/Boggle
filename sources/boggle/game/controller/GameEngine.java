@@ -5,7 +5,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import boggle.game.controller.gameConfig.GameConfig;
+import boggle.game.controller.listener.buttonListener.ButtonAddWordListener;
 import boggle.game.controller.listener.buttonListener.ButtonBackToMenuListener;
+import boggle.game.controller.listener.buttonListener.ButtonClearListener;
 import boggle.game.controller.listener.buttonListener.ButtonConfigListener;
 import boggle.game.controller.listener.buttonListener.ButtonDiceListener;
 import boggle.game.controller.listener.buttonListener.ButtonPlayListener;
@@ -46,6 +48,8 @@ public class GameEngine implements Observer {
 		if (gameThread != null)
 			gameThread.interrupt();
 		window.loadGame();
+		window.getGamePanel().getCenterPanel().getCenterPanel().getButtonClear().addActionListener(new ButtonClearListener(this));
+		window.getGamePanel().getCenterPanel().getCenterPanel().getButtonAddWord().addActionListener(new ButtonAddWordListener(this));
 		window.getGamePanel().getNorthPanel().getBackToMenu().addActionListener(new ButtonBackToMenuListener(window.getGamePanel().getNorthPanel(), this));
 		window.getGamePanel().getCenterPanel().getRightPanel().getButtonSubmit().addActionListener(new ButtonSubmitListener(window.getGamePanel().getCenterPanel().getRightPanel(), this));
 
@@ -78,21 +82,45 @@ public class GameEngine implements Observer {
 			this.loadMenu();
 		}
 		else if (obs instanceof ButtonSubmitListener) {
-			this.motCourant = "";
 			this.updateButtonSubmit();
 		}
 		else if (obs instanceof ButtonDiceListener) {
-			motCourant += ((Dice)obj).getCurrentFace();
-			System.out.println("Mot : " + motCourant);
-			game.getGrid().unlock();
-			game.getGrid().lock(((Dice)obj).getX(), ((Dice)obj).getY());
-			game.getGrid().getDice(((Dice)obj).getX(), ((Dice)obj).getY()).setUsed(true);
-			window.getGamePanel().repaint();
-			window.getGamePanel().revalidate();
-			System.out.println("x : " + ((Dice)obj).getX() + ", y : " + ((Dice)obj).getY());
+			updateButtonDice((Dice)obj);
+		}
+		else if (obs instanceof ButtonAddWordListener) {
+			updateButtonAddWord();
+		}
+		else if (obs instanceof ButtonClearListener) {
+			updateButtonClear();
 		}
 	}
+	
+	private void updateButtonAddWord() {
+		game.getCurrentPlayer().addWord(motCourant);
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().resetGrid();
+		motCourant = "";
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().repaint();
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().revalidate();
+	}
+	
+	public void updateButtonClear() {
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().resetGrid();
+		motCourant = "";
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().repaint();
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().revalidate();
+	}
 
+	private void updateButtonDice(Dice d) {
+		motCourant += d.getCurrentFace();
+		System.out.println("Mot : " + motCourant);
+		game.getGrid().unlock();
+		game.getGrid().lock(d.getX(), d.getY());
+		game.getGrid().getDice(d.getX(), d.getY()).setUsed(true);
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().update();
+		window.getGamePanel().repaint();
+		window.getGamePanel().revalidate();
+	}
+	
 	private void updateButtonPlay(GameConfig gameConfig) {
 		if(gameConfig.getGameType().equals("RoundGame")) {
 			//LoadGamePanel + new RoundGame(infos)
@@ -126,6 +154,7 @@ public class GameEngine implements Observer {
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().getPanelScore().update();
 		this.window.getGamePanel().revalidate();
 		this.window.getGamePanel().repaint();
+		this.motCourant = "";
 	}
 
 	public static void main(String[] args) {

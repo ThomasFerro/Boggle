@@ -16,7 +16,7 @@ public class ButtonBackToMenuListener extends Observable implements ActionListen
 	public ButtonBackToMenuListener(NorthPanel northPanel, GameEngine engine) {
 		this.northPanel = northPanel;
 		this.engine = engine;
-		//addObserver(engine);
+		addObserver(engine);
 	}
 	
 	@Override

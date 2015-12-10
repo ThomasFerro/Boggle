@@ -29,14 +29,31 @@ public class GridView extends JPanel{
 				buttons[i][j] = new DiceButton(diceGrid.getGrid()[i][j]);
 				buttons[i][j].getDice().setLocked(false);
 				buttons[i][j].getDice().setUsed(false);
+				buttons[i][j].setEnabled(true);
 				add(buttons[i][j]);
 			}
 		}
 	}
 	
+	public void resetGrid() {
+		for (int i = 0; i < buttons.length; i++) {
+			for (int j = 0; j < buttons[0].length; j++) {
+				buttons[i][j].getDice().setLocked(false);
+				buttons[i][j].getDice().setUsed(false);
+				buttons[i][j].setEnabled(true);
+			}
+		}
+	}
+	
 	public void update() {
-		this.revalidate();
-		this.repaint();
+		for (int i = 0; i < buttons.length; i++) {
+			for (int j = 0; j < buttons[0].length; j++) {
+				if(buttons[i][j].getDice().isLocked() || buttons[i][j].getDice().isUsed())
+					buttons[i][j].setEnabled(false);
+				else
+					buttons[i][j].setEnabled(true);
+			}
+		}
 	}
 
 	public JButton[][] getButtons() {
