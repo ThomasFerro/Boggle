@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
 import java.util.Random;
 
-public class DiceGrid {
+public class DiceGrid extends Observable{
 	private Dice[][] grid;
 	private int size;
 	
@@ -65,24 +65,22 @@ public class DiceGrid {
 				maxValue = dices.size();
 				value = minValue + r.nextInt(maxValue - minValue);
 				grid[i][j] = dices.remove(value);
-			}
-		}
-		
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[i].length; j++) {
 				grid[i][j].shake();
 				grid[i][j].setCoord(i, j);
 			}
 		}
-		System.out.println("I'm shaked");
+		setChanged();
+		notifyObservers(this);
 	}
 	
 	public boolean lock(int x, int y) {
+		getDice(x,y).setUsed(true);
 		if (x < grid[0].length && y < grid.length) {
 			for (int i = 0; i < grid.length; i ++) { // x
 				for (int j = 0; j < grid[i].length; j++) { // y 
-					if (!getDice(i,j).isUsed() && !((i ==  x + 1 || i == x - 1 || x == i) && (j ==  y + 1 || j == y - 1 || j == y)))
+					if (!getDice(i,j).isUsed() && !((i ==  x + 1 || i == x - 1 || x == i) && (j ==  y + 1 || j == y - 1 || j == y))) {
 						getDice(i,j).setLocked(true);
+					}
 				}
 			}
 			return true;
@@ -118,15 +116,5 @@ public class DiceGrid {
 			str += "\n";
 		}
 		return str;
-	}
-	
-	public static void main(String[] args) {
-		DiceGrid dg = new DiceGrid(4, "config/des-4x4.csv");
-		dg.lock(0, 1);
-		dg.shake();
-		dg.unlock();
-		dg.lock(0, 1);
-		System.out.println(dg.toString());
-		System.out.println(dg.getDice(0, 1));
 	}
 }

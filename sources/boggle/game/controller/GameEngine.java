@@ -23,37 +23,39 @@ public class GameEngine implements Observer {
 	private File configFile;
 	private GameConfig gameConfig;
 	private Thread gameThread;
-	
+	private String motCourant;
+
 	public GameEngine() {
+		motCourant = "";
 		window = new Window();
 		configFile = new File("config/regles-4x4.config");
 	}
-	
+
 	public void run() {
 		//Lance le jeu
 	}
-	
+
 	public void loadMenu() {
 		//Load the Menu page and add the actionListeners
 		window.loadMenu();
 		window.getMenu().getLeftMenu().getButtonPlay().addActionListener(new ButtonPlayListener(window.getMenu().getLeftMenu(), this));
 		window.getMenu().getLeftMenu().getButtonConfig().addActionListener(new ButtonConfigListener(window.getMenu().getLeftMenu(), this));
 	}
-	
+
 	public void loadGame(Game game) {
 		if (gameThread != null)
 			gameThread.interrupt();
 		window.loadGame();
 		window.getGamePanel().getNorthPanel().getBackToMenu().addActionListener(new ButtonBackToMenuListener(window.getGamePanel().getNorthPanel(), this));
 		window.getGamePanel().getCenterPanel().getRightPanel().getButtonSubmit().addActionListener(new ButtonSubmitListener(window.getGamePanel().getCenterPanel().getRightPanel(), this));
-		
+
 		this.game = game;
 		gameThread = new Thread(this.game);
 		gameThread.start();
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().init(this.game.getGrid());
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().setCurrentPlayer(this.game.getCurrentPlayer().getName());
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().getPanelScore().init(this.game.getPlayers());
-		
+
 		//Add the listeners to the DiceButton
 		DiceButton[][] buttons = (DiceButton[][])this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().getButtons();
 		for(DiceButton[] ligne : buttons) {
@@ -62,7 +64,7 @@ public class GameEngine implements Observer {
 			}
 		}
 	}
-	
+
 	public void update(Observable obs, Object obj) {
 		if(obs instanceof ButtonConfigListener) {
 			//Change the configFile
@@ -76,18 +78,21 @@ public class GameEngine implements Observer {
 			this.loadMenu();
 		}
 		else if (obs instanceof ButtonSubmitListener) {
+			this.motCourant = "";
 			this.updateButtonSubmit();
 		}
 		else if (obs instanceof ButtonDiceListener) {
-			System.out.println(((Dice)obj).getCurrentFace());
+			motCourant += ((Dice)obj).getCurrentFace();
+			System.out.println("Mot : " + motCourant);
 			game.getGrid().unlock();
 			game.getGrid().lock(((Dice)obj).getX(), ((Dice)obj).getY());
+			game.getGrid().getDice(((Dice)obj).getX(), ((Dice)obj).getY()).setUsed(true);
 			window.getGamePanel().repaint();
 			window.getGamePanel().revalidate();
 			System.out.println("x : " + ((Dice)obj).getX() + ", y : " + ((Dice)obj).getY());
 		}
 	}
-	
+
 	private void updateButtonPlay(GameConfig gameConfig) {
 		if(gameConfig.getGameType().equals("RoundGame")) {
 			//LoadGamePanel + new RoundGame(infos)
@@ -100,7 +105,7 @@ public class GameEngine implements Observer {
 			}
 		}
 	}
-	
+
 	private void updateButtonSubmit() {
 		game.setSubmited();
 		try {
@@ -109,7 +114,14 @@ public class GameEngine implements Observer {
 			e.printStackTrace();
 		}
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().update();
-		//this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().init(this.game.getGrid());
+		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().init(this.game.getGrid());
+		//Add the listeners to the DiceButton
+		DiceButton[][] buttons = (DiceButton[][])this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().getButtons();
+		for(DiceButton[] ligne : buttons) {
+			for(DiceButton button : ligne) {
+				button.addActionListener(new ButtonDiceListener(this));
+			}
+		}
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().setCurrentPlayer(this.game.getCurrentPlayer().getName());
 		this.window.getGamePanel().getCenterPanel().getLeftPanel().getPanelScore().update();
 		this.window.getGamePanel().revalidate();

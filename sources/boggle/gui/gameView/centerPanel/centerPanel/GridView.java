@@ -1,13 +1,15 @@
 package boggle.gui.gameView.centerPanel.centerPanel;
 
 import java.awt.GridLayout;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import boggle.words.DiceGrid;
 
-public class GridView extends JPanel {
+public class GridView extends JPanel{
 	
 	private DiceButton [][] buttons;
 	
@@ -25,6 +27,8 @@ public class GridView extends JPanel {
 		for (int i = 0; i < lengthX; i++) {
 			for (int j = 0; j < lengthY; j++) {
 				buttons[i][j] = new DiceButton(diceGrid.getGrid()[i][j]);
+				buttons[i][j].getDice().setLocked(false);
+				buttons[i][j].getDice().setUsed(false);
 				add(buttons[i][j]);
 			}
 		}
