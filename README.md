@@ -7,11 +7,24 @@
 - [x] Jeu de Boggle développé en Java, disponible sur tous les OS compatibles avec Java donc.
 - [x] Interface User-Friendly en Swing.
 - [x] Multi-joueur en local (choix du pseudo avant début de la partie).
-- [x] Règles personnalisables (cf partie [II.2](https://github.com/ThomasFerro/ProjetLongGL/blob/master/README.md#ii2---ajout-de-règles-personnalisées)).
+- [x] Règles personnalisables (cf partie [II.2](#ii2---ajout-de-règles-personnalisées)).
 - [x] Mémorisation des cinque meilleurs scores.
 
 ### I - Compilation des sources et exécution du programme
 TODO: Décrire procédure de compilation et d'éxecution
+
+Une version prête à l'usage est disponible au format _.jar_ directement sur [ce Github](https://github.com/ThomasFerro/ProjetLongGL) et éxecutable avec la commande suivante, dans le même dossier que votre éxecutable :
+
+` java -jar Boggle.jar  `
+
+Vous pouvez aussi modifier les sources vous-même et recompiler le projet grâce à la commande :
+
+` javac TODO `
+
+Depuis le dossier sources (avec les dossier *bin*, *config*...).
+Puis l'éxécuter, toujours depuis le même dossier, avec la commande :
+
+` java -classpath bin boggle.game.controller.GameEngine `
 
 -----------------------------
 
@@ -25,7 +38,7 @@ TODO : Décrire lancement du jeu avec captures
 
 Vous pouvez rajouter votre règles personnalisée en suivant scrupuleusement les instructions suivantes :
 
-- Ces modifications seront apportées dans les fichiers du sous dossier *config*
+- Ces modifications seront apportées dans les fichiers du sous dossier *config*, dans le *.jar* (cf partie [I](#i---compilation-des-sources-et-exécution-du-programme) pour l'utilisation du fichier *.jar*)
 - Placez votre fichier *nom_du_fichier_.config* dans ce dossier, en respectant le format suivant :  
   - taille-min:  x
   - des: *x.csv*
@@ -46,7 +59,7 @@ TODO : Décrire génération de la partie
 TODO : Décrire le déroulement pas à pas
 
 #### III.3 - Remarques
-Cf Javadoc pour plus d'informations
+Cf [Javadoc](#) pour plus d'informations
 
 ----------------------------
 
