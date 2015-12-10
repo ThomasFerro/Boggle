@@ -30,11 +30,24 @@ Puis l'éxécuter, toujours depuis le même dossier, avec la commande :
 
 ### II - Documentation utilisateur
 #### II.1 - Lancement du jeu
-TODO : Décrire lancement du jeu avec captures
+TODO : Ajout des captures
 
+Le lancement du jeu est prévu pour être le plus clair possible pour l'utilisateur, voici comment il se déroule :
+- Lancement de l'éxecutable (cf commande d'éxecution dans la [partie I](#i---compilation-des-sources-et-exécution-du-programme), choix des options dans le menu du jeu.
+- Choix du nom des joueurs depuis des popups.
+- Puis la partie se lance...
 
+#### II.2 - Déroulement d'une partie point de vue utilisateur
 
-#### II.2 - Ajout de règles personnalisées
+Un partie typique, d'un point de vu utilisateur, se déroule en plusieurs étapes :
+- Dans la fenêtre de jeu, chacun leur tour, les joueurs entrent des mots en cliquant sur les dès. 
+- Après avoir fini son mot, le joueur clic sur **Add Word** pour le valider ce dernier mais peut aussi annuler son action en cliquant sur **Clear**. 
+- Quand il a fini, le joueur peut cliquer sur **Submit** pour valider sa liste de mot, visible sur la droite de l'écran de jeu.
+- Une fois validée, la liste est vérifiée et les points sont calculés en fonction des configurations prédéfinies.
+- Le tour passe au joueur suivant, et ainsi de suite jusqu'à atteindre la limite, soit de points, soit de manches.
+- Quand cette limite est atteinte, les scores sont calculés, le joueur ayant le plus de point est déclaré vainqueur et la liste des meilleurs score est modifiée, cas échéant.
+
+#### II.3 - Ajout de règles personnalisées
 
 Vous pouvez rajouter votre règles personnalisée en suivant scrupuleusement les instructions suivantes :
 
@@ -53,24 +66,30 @@ Vous pouvez rajouter votre règles personnalisée en suivant scrupuleusement les
 -----------------------------
 
 ### III - Documentation technique
-#### III.1 - Génération d'une partie
-TODO : Décrire génération de la partie
-#### III.2 - Déroulement typique d'une partie
+#### III.1 - Génération et déroulement d'une partie point de vue technique
+TODO : Décrire déroulement de la partie
 
-Un partie typique, d'un point de vu utilisateur, se déroule en plusieurs étapes :
-- Lancement de l'éxecutable, choix des options dans le menu du jeu.
-- Choix du nom des joueurs depuis des popups.
-- Dans la fenêtre de jeu, chacun leur tour, les joueurs entrent des mots en cliquant sur les dès. 
-- Après avoir fini son mot, le joueur clic sur **Add Word** pour le valider ce dernier mais peut aussi annuler son action en cliquant sur **Clear**. 
-- Quand il a fini, le joueur peut cliquer sur **Submit** pour valider sa liste de mot, visible sur la droite de l'écran de jeu.
-- Une fois validée, la liste est vérifiée et les points sont calculés en fonction des configurations prédéfinies.
-- Le tour passe au joueur suivant, et ainsi de suite jusqu'à atteindre la limite, soit de points, soit de manches.
-- Quand cette limite est atteinte, les scores sont calculés, le joueur ayant le plus de point est déclaré vainqueur et la liste des meilleurs score est modifiée, cas échéant.
+La génération d'une partie se fait grâce aux paramètres passées par l'utilisateur, depuis le fichier *config* et grâce à ses choix dans le menu. On souhaite notamment savoir si la partie à générer est limitée en points ou en tours. On récupère aussi cette limite, une limite de temps pour le tour, le nombre de joueurs ainsi que le fichier de configuration.
 
-#### III.3 - Remarques
+
+Une fois ces choix effectués, on affiche une popup par joueur afin qu'il inscrive son pseudo, puis la partie commence.
+
+
+
+#### III.2 - Remarques
 Cf [Javadoc](#) pour plus d'informations
 
 ----------------------------
 
-### IV - Pistes d'améliorations et conclusion
+### IV - Pistes d'amélioration et conclusion
 TODO : Les améliorations non implentées + écrire une conclusion au projet
+
+Ce projet nous a permis de voir de nombreuses facettes de la programmation : de la réflexion en amont avant de se jeter sur le code afin d'être le plus clair possible sur le sujet à la conception effective de cette application et à la résolution de multiples questions d'ergonomies et d'optimisation.
+
+
+De plus, nous avons pu mettre en application les notions de décomposition du code, notamment avec l'utilisation du pattern MVC (Model-View-Controller).
+
+
+Nous avons de nombreuses pistes d'amélioration à explorer pour ce projet, voici quelques exemple :
+- Oui
+- Non
