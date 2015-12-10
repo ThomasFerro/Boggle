@@ -7,7 +7,7 @@
 - [x] Jeu de Boggle développé en Java, disponible sur tous les OS compatibles avec Java donc.
 - [x] Interface User-Friendly en Swing.
 - [x] Multi-joueur en local (choix du pseudo avant début de la partie).
-- [x] Règles personnalisables (cf partie [II.2](#ii2---ajout-de-règles-personnalisées)).
+- [x] Règles personnalisables (cf [partie II.2](#ii2---ajout-de-règles-personnalisées)).
 - [x] Mémorisation des cinque meilleurs scores.
 
 ### I - Compilation des sources et exécution du programme
@@ -38,7 +38,7 @@ TODO : Décrire lancement du jeu avec captures
 
 Vous pouvez rajouter votre règles personnalisée en suivant scrupuleusement les instructions suivantes :
 
-- Ces modifications seront apportées dans les fichiers du sous dossier *config*, dans le *.jar* (cf partie [I](#i---compilation-des-sources-et-exécution-du-programme) pour l'utilisation du fichier *.jar*)
+- Ces modifications seront apportées dans les fichiers du sous dossier *config*, dans le *.jar* (cf [partie I](#i---compilation-des-sources-et-exécution-du-programme) pour l'utilisation du fichier *.jar*)
 - Placez votre fichier *nom_du_fichier_.config* dans ce dossier, en respectant le format suivant :  
   - taille-min:  x
   - des: *x.csv*
