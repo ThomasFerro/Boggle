@@ -80,6 +80,11 @@ public class GameEngine implements Observer {
 		}
 		else if (obs instanceof ButtonDiceListener) {
 			System.out.println(((Dice)obj).getCurrentFace());
+			game.getGrid().unlock();
+			game.getGrid().lock(((Dice)obj).getX(), ((Dice)obj).getY());
+			window.getGamePanel().repaint();
+			window.getGamePanel().revalidate();
+			System.out.println("x : " + ((Dice)obj).getX() + ", y : " + ((Dice)obj).getY());
 		}
 	}
 	

@@ -12,7 +12,7 @@ public class ButtonDiceListener extends Observable implements ActionListener {
 	private GameEngine engine;
 	
 	public ButtonDiceListener(GameEngine engine) {
-		//addObserver(engine);
+		addObserver(engine);
 		this.engine = engine;
 	}
 	

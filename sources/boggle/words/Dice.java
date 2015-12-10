@@ -7,17 +7,31 @@ public class Dice {
 	private int currentFaceId;	//Current face's id of values' table
 	private boolean used;
 	private boolean locked;
+	private int x;
+	private int y;
 	
 	public Dice() {
 		values = null;
 		currentFaceId = -1;
 		used = false;
+		this.x = -1;
+		this.y = -1;
+	}
+	
+	public Dice(int x, int y) {
+		this();
+		this.x = x;
+		this.y = y;
 	}
 	
 	public Dice(char [] values) {
+		this();
 		this.values = values;
-		currentFaceId = -1;
-		used = false;
+	}
+	
+	public Dice(int x, int y, char [] values) {
+		this(x, y);
+		this.values = values;
 	}
 	
 	public void shake() {
@@ -59,6 +73,27 @@ public class Dice {
 	
 	public void setUsed(boolean isUsed) {
 		this.used = isUsed;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	public void setCoord(int x, int y) {
+		setX(x);
+		setY(y);
 	}
 
 	//Face bloquée : [], Face utilisée : {}

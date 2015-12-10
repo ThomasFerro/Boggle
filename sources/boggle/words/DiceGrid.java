@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -37,7 +38,7 @@ public class DiceGrid {
 				String chaine = line.replaceAll(";", "");
 				int x = i / size;
 				int y = i % size;
-				grid[x][y] = new Dice(chaine.toCharArray());
+				grid[x][y] = new Dice(x, y, chaine.toCharArray());
 				i++;
 			}
 			file.close();
@@ -52,7 +53,6 @@ public class DiceGrid {
 		List<Dice> dices = new ArrayList<Dice>();
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
-				grid[i][j].shake();
 				dices.add(grid[i][j]);
 			}
 		}
@@ -67,6 +67,14 @@ public class DiceGrid {
 				grid[i][j] = dices.remove(value);
 			}
 		}
+		
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				grid[i][j].shake();
+				grid[i][j].setCoord(i, j);
+			}
+		}
+		System.out.println("I'm shaked");
 	}
 	
 	public boolean lock(int x, int y) {
@@ -96,7 +104,7 @@ public class DiceGrid {
 	
 	public Dice getDice(int x, int y) {
 		if (x >= 0 && x < grid[0].length && y >= 0 && y < grid.length) {
-			return grid[y][x];	//c'est l'inverse
+			return grid[x][y];
 		}
 		return null;
 	}
@@ -114,6 +122,9 @@ public class DiceGrid {
 	
 	public static void main(String[] args) {
 		DiceGrid dg = new DiceGrid(4, "config/des-4x4.csv");
+		dg.lock(0, 1);
+		dg.shake();
+		dg.unlock();
 		dg.lock(0, 1);
 		System.out.println(dg.toString());
 		System.out.println(dg.getDice(0, 1));

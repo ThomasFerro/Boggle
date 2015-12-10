@@ -14,7 +14,6 @@ import boggle.words.Dice;
 public class DiceButton extends JButton {
 
 	private final int FONT_SIZE = 25;
-	private boolean locked;
 	private Dice dice;
 	
 	public DiceButton(Dice d) {
@@ -23,14 +22,13 @@ public class DiceButton extends JButton {
 		this.setSize(new Dimension(50,50));
 		this.setPreferredSize(new Dimension(50,50));
 		this.setBorder(null);
-		this.locked = false;
 	}
 
 	protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setFont(new Font(g.getFont().getFontName(), Font.BOLD, FONT_SIZE));
         Image img = null;
-        if (locked) {
+        if (dice.isLocked()) {
         	img = new ImageIcon("img/DisableDice.png").getImage();
         } else {
 	        if (! dice.isUsed()) {
@@ -59,14 +57,6 @@ public class DiceButton extends JButton {
 
 	public boolean isUsed() {
 		return dice.isUsed();
-	}
-	
-	public boolean isLocked() {
-		return locked;
-	}
-
-	public void setLock(boolean locked) {
-		this.locked = locked;
 	}
 
 	public Dice getDice() {
