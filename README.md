@@ -11,8 +11,24 @@ TODO: Décrire procédure de compilation et d'éxecution
 ### II - Documentation utilisateur
 #### II.1 - Lancement du jeu
 TODO : Décrire lancement du jeu avec captures
+
+
+
 #### II.2 - Ajout de règles personnalisées
-TODO : Décrire la procédure d'ajout de règles perso, ajout des fichiers, normes etc..
+
+Vous pouvez rajouter votre règles personnalisée en suivant scrupuleusement les instructions suivantes :
+
+- Ces modifications seront apportées dans les fichiers du sous dossier *config*
+- Placez votre fichier *nom_du_fichier_.config* dans ce dossier, en respectant le format suivant :  
+  - taille-min:  x
+  - des: *x.csv*
+  - dictionnaire: *x.txt*
+  - point: [tableau du type *1,1,2,3,5,11*]
+- Le fichier représentant les dès doit être de la forme suivante : six lettres séparées d'un point virgule représentant les six faces du dès
+- Le dictionnaire doit être de la forme suivante : un mot par ligne
+
+
+- Une fois la partie lancer, vous pourrez charger ce fichier depuis le menu en cliquant sur **CONFIG**.
 
 -----------------------------
 
