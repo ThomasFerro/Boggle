@@ -2,6 +2,13 @@
 # Mini-jeu Boggle - Projet Génie Logiciel - DA2I
 ## Leleu Julien - Ferro Thomas
 
+###Liste des fonctionnalités
+
+- [x] Jeu de Boggle développé en Java, disponible sur tous les OS compatibles avec Java donc.
+- [x] Interface User-Friendly en Swing.
+- [x] Multi-joueur en local (choix du pseudo avant début de la partie).
+- [x] Règles personnalisables (cf partie [II.2](https://github.com/ThomasFerro/ProjetLongGL/blob/master/README.md#ii2---ajout-de-règles-personnalisées)).
+- [x] Mémorisation des cinque meilleurs scores.
 
 ### I - Compilation des sources et exécution du programme
 TODO: Décrire procédure de compilation et d'éxecution
