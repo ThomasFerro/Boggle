@@ -56,7 +56,16 @@ Vous pouvez rajouter votre règles personnalisée en suivant scrupuleusement les
 #### III.1 - Génération d'une partie
 TODO : Décrire génération de la partie
 #### III.2 - Déroulement typique d'une partie
-TODO : Décrire le déroulement pas à pas
+
+Un partie typique, d'un point de vu utilisateur, se déroule en plusieurs étapes :
+- Lancement de l'éxecutable, choix des options dans le menu du jeu.
+- Choix du nom des joueurs depuis des popups.
+- Dans la fenêtre de jeu, chacun leur tour, les joueurs entrent des mots en cliquant sur les dès. 
+- Après avoir fini son mot, le joueur clic sur **Add Word** pour le valider ce dernier mais peut aussi annuler son action en cliquant sur **Clear**. 
+- Quand il a fini, le joueur peut cliquer sur **Submit** pour valider sa liste de mot, visible sur la droite de l'écran de jeu.
+- Une fois validée, la liste est vérifiée et les points sont calculés en fonction des configurations prédéfinies.
+- Le tour passe au joueur suivant, et ainsi de suite jusqu'à atteindre la limite, soit de points, soit de manches.
+- Quand cette limite est atteinte, les scores sont calculés, le joueur ayant le plus de point est déclaré vainqueur et la liste des meilleurs score est modifiée, cas échéant.
 
 #### III.3 - Remarques
 Cf [Javadoc](#) pour plus d'informations
