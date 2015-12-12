@@ -86,7 +86,7 @@ public abstract class Game implements Runnable {
 	private boolean launch() {
 		try {
 			//Créer le DiceGrid :
-			grid = new DiceGrid(minSize+1,gridPath);
+			//grid = new DiceGrid(minSize+1,gridPath, this);
 			//Créer l'arbre:
 			tree = LexicalTree.readWords(treePath);
 		}

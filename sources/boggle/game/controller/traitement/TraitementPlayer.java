@@ -11,8 +11,6 @@ public class TraitementPlayer extends Traitement{
 			return player.plays();
 		case PRENDRE_MAIN :
 			return player.stopPlaying();
-		case CALCULER_SCORE : 
-			return MessageRetour.OK;
 		default: 
 			return MessageRetour.KO;
 		}

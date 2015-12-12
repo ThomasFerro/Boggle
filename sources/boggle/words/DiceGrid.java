@@ -4,17 +4,23 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Observable;
 
-public class DiceGrid {
+import boggle.game.controller.GameEngineV2;
+import boggle.game.controller.traitement.MessageRetour;
+
+public class DiceGrid extends Observable{
 	private Dice[][] grid;
 	private int size;
 	
-	public DiceGrid(int size) {
+	public DiceGrid(int size, GameEngineV2 engine) {
+		this.addObserver(engine);
 		this.size = size;
 		grid = new Dice[size][size];
 	}
 	
-	public DiceGrid(int size, String path) {
+	public DiceGrid(int size, String path, GameEngineV2 engine) {
+		this.addObserver(engine);
 		this.size = size;
 		grid = new Dice[size][size];
 		init(path);
@@ -23,6 +29,11 @@ public class DiceGrid {
 	public void init(String path) {
 		readCSV(path);
 		shake();
+	}
+	
+	public void notify(Object o) {
+		this.setChanged();
+		this.notifyObservers(o);
 	}
 	
 	public void readCSV(String path) {
@@ -45,12 +56,13 @@ public class DiceGrid {
 		}
 	}
 	
-	public void shake() {
+	public MessageRetour shake() {
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				grid[i][j].shake();
 			}
 		}
+		return MessageRetour.OK;
 	}
 	
 	public String toString() {

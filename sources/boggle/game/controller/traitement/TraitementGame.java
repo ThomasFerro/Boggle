@@ -9,14 +9,13 @@ public class TraitementGame extends Traitement{
 		GameV2 game = (GameV2)parent;
 		switch((Message)o) {
 		case DEMARRER_PARTIE : 
-			game.demarrer();
-			return MessageRetour.OK;
+			return game.demarrer();
 		case ARRETER_PARTIE :
-			game.arreter();
-			return MessageRetour.OK;
+			return game.arreter();
 		case INCREMENTER_TOUR:
-			game.incrementer_tour();
-			return MessageRetour.OK;
+			return game.incrementer_tour();
+		case CALCULER_SCORE : 
+			return game.updateScore();
 		default : return MessageRetour.KO;
 		}
 	}

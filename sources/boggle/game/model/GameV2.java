@@ -3,15 +3,19 @@ package boggle.game.model;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
 import java.util.Properties;
+import java.util.Set;
 
 import boggle.game.controller.GameEngineV2;
 import boggle.game.controller.traitement.Command;
 import boggle.game.controller.traitement.Message;
+import boggle.game.controller.traitement.MessageRetour;
 import boggle.game.entity.Human;
 import boggle.game.entity.Player;
 import boggle.words.Dice;
@@ -34,7 +38,6 @@ public abstract class GameV2 extends Observable{
 		this.gameEngine = new GameEngineV2(this);
 		this.addObserver(gameEngine);
 		this.players = players;
-		//TODO : Trouver un moyen d'extends Player de Observable
 		for(Player player : this.players) {
 			((Human)player).addObserver(gameEngine);
 		}
@@ -42,7 +45,7 @@ public abstract class GameV2 extends Observable{
 		this.loadConfigs(config);
 	}
 
-	public void demarrer() {
+	public MessageRetour demarrer() {
 		//Load the properties then run the game:
 		try {
 			//Créer le DiceGrid :
@@ -52,6 +55,7 @@ public abstract class GameV2 extends Observable{
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
+			return MessageRetour.KO;
 		}
 
 		//Run the game
@@ -77,28 +81,30 @@ public abstract class GameV2 extends Observable{
 				while(currentPlayer.isPlaying()) {
 					System.out.print("");
 				}
-				endTurn();
 				//TODO : Une fois le Timer en place : Si fin du timer :
 				//currentPlayer.notify(new Command("PLAYER", Message.PRENDRE_MAIN));
-				currentPlayer.notify(new Command("PLAYER", Message.CALCULER_SCORE));
+				this.notify(new Command("GAME", Message.CALCULER_SCORE));
 			}
 			this.notify(new Command("GAME", Message.INCREMENTER_TOUR));
 			System.out.println("Fin du tour.");
 		}while(!isFinished());
 		System.out.println("Fin de la partie.");
+		return MessageRetour.OK;
 	}
 	
 	protected abstract boolean isFinished();
 
-	public void arreter() {
+	public MessageRetour arreter() {
 		//Compare les points de chacun, établie le gagnant.
 		List<Player> p = Arrays.asList(players);
 		Collections.sort(p, Collections.reverseOrder());
 		System.out.println("GAGNANT : " + p.get(0).getName() + " AVEC " + p.get(0).getScore() + "POINTS");
+		return MessageRetour.OK;
 	}
 
-	public void incrementer_tour() {
+	public MessageRetour incrementer_tour() {
 		this.round++;
+		return MessageRetour.OK;
 	}
 
 	public void notify(Object o) {
@@ -117,7 +123,7 @@ public abstract class GameV2 extends Observable{
 			this.minSize = Integer.parseInt(props.getProperty("taille-min"));
 
 			//Points : 
-			String[] tab = props.getProperty("taille-min").split(",");
+			String[] tab = props.getProperty("points").split(",");
 			pointGrid = new int[tab.length];
 			for(int i = 0; i < tab.length; i++) {
 				pointGrid[i] = Integer.parseInt(tab[i]);
@@ -153,31 +159,37 @@ public abstract class GameV2 extends Observable{
 		return false;
 	}
 
-	protected void endTurn() {
-		//Pour chaque mot de la liste
-		for(String word : currentPlayer.getWords()) {
+	public MessageRetour updateScore() {
+		System.out.println("UpdateScore");
+		//Pour chaque mot distinct de la liste
+		Set<String> set = new HashSet() ;
+        set.addAll(currentPlayer.getWords()) ;
+        ArrayList distinctList = new ArrayList(set) ;
+		for(String word : set) {
 			//Vérifier la validité du mot :
 			if(tree.contains(word)) {
 				//Vérifier la valeur puis ajouter au score du joueur
-				currentPlayer.setScore(currentPlayer.getScore()+checkScore(word));
+				currentPlayer.updateScore(checkScore(word));
 			}
 		}
+		return MessageRetour.OK;
 	}
 
 	private int checkScore(String word) {
 		int sizeTab = pointGrid.length;
-
+		
+		System.out.print("Mot : " + word + ", taille : " + word.length() +"; ");
 		//On ne donne pas de point si le mot est plus petit que la taille minimum
 		//Si le mot est plus grand que le maximum de lettres, donner le maximum de points
 		//Sinon, on donne le nombre de points correspondants
-
+		
 		if(word.length() >= minSize) {
-			if(word.length() >= sizeTab) 
+			if(word.length() >= sizeTab) {
+				System.out.println("points : " + pointGrid[sizeTab-1]);
 				return pointGrid[sizeTab-1];
-			for(int i = 0; i < sizeTab; i++) {
-				if(word.length() == (minSize+i)) 
-					return pointGrid[i];
 			}
+			System.out.println("points : " + pointGrid[word.length()-minSize]);
+			return pointGrid[word.length()-minSize];
 		}	
 		return 0;
 	}

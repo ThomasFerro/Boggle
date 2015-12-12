@@ -50,6 +50,8 @@ public class Human extends Observable implements Player{
 		do {
 			System.out.print("Mot : ");
 			rep = sc.nextLine();
+			if (!rep.equals("")) { this.addWord(rep); };
+			//TODO : A supprimer une fois en graphique
 			if(rep.equals("")) 
 				this.notify(new Command("PLAYER", Message.PRENDRE_MAIN));
 		}while(isPlaying());
