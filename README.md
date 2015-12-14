@@ -29,7 +29,6 @@ Puis l'éxécuter, toujours depuis le même dossier, avec la commande :
 
 ### II - Documentation utilisateur
 #### II.1 - Lancement du jeu
-TODO : Ajout des captures
 
 Le lancement du jeu est prévu pour être le plus clair possible pour l'utilisateur, voici comment il se déroule :
 - Lancement de l'éxecutable (cf commande d'éxecution dans la [partie I](#i---compilation-des-sources-et-exécution-du-programme), choix des options dans le menu du jeu.
