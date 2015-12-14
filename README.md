@@ -113,7 +113,6 @@ Cf [Javadoc](#) pour plus d'informations
 ----------------------------
 
 ### IV - Pistes d'amélioration et conclusion
-TODO : Les améliorations non implentées + écrire une conclusion au projet
 
 Ce projet nous a permis de voir de nombreuses facettes de la programmation : de la réflexion en amont avant de se jeter sur le code afin d'être le plus clair possible sur le sujet à la conception effective de cette application et à la résolution de multiples questions d'ergonomies et d'optimisation.
 
