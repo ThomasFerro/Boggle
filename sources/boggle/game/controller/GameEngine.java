@@ -15,6 +15,7 @@ import boggle.game.controller.listener.buttonListener.ButtonSubmitListener;
 import boggle.game.model.Game;
 import boggle.game.model.PointGame;
 import boggle.game.model.RoundGame;
+import boggle.game.model.Sablier;
 import boggle.gui.gameView.centerPanel.centerPanel.DiceButton;
 import boggle.gui.window.Window;
 import boggle.words.Dice;
@@ -25,9 +26,11 @@ public class GameEngine implements Observer {
 	private File configFile;
 	private Thread gameThread;
 	private String motCourant;
+	private int timer;
 
 	public GameEngine() {
 		motCourant = "";
+		timer = 0;
 		window = new Window();
 		configFile = new File("config/regles-4x4.config");
 	}
@@ -50,12 +53,12 @@ public class GameEngine implements Observer {
 		window.getGamePanel().getCenterPanel().getCenterPanel().getWordTextField().setEditable(false);
 		
 		this.game = game;
+		this.game.getSablier().addObserver(this);
 		gameThread = new Thread(this.game);
 		gameThread.start();
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().init(this.game.getGrid());
@@ -83,6 +86,7 @@ public class GameEngine implements Observer {
 		}
 		else if (obs instanceof ButtonBackToMenuListener) {
 			this.motCourant = "";
+			this.game.getSablier().stop();
 			this.loadMenu();
 		}
 		else if (obs instanceof ButtonSubmitListener) {
@@ -97,6 +101,17 @@ public class GameEngine implements Observer {
 		else if (obs instanceof ButtonClearListener) {
 			updateButtonClear();
 		}
+		else if (obs instanceof Sablier) {
+			updateTimer((int)obj);
+			if((int)obj == 0)
+				this.updateButtonSubmit();
+		}
+	}
+	
+	private void updateTimer(int t) {
+		this.window.getGamePanel().getNorthPanel().getTimer().setTime(t);
+		window.getGamePanel().repaint();
+		window.getGamePanel().revalidate();
 	}
 	
 	private void updateButtonAddWord() {
@@ -132,18 +147,19 @@ public class GameEngine implements Observer {
 	private void updateButtonPlay(GameConfig gameConfig) {
 		if(gameConfig.getGameType().equals("RoundGame")) {
 			//LoadGamePanel + new RoundGame(infos)
-			this.loadGame(new RoundGame(gameConfig.getPlayers(),configFile , gameConfig.getLimit()));
+			this.loadGame(new RoundGame(gameConfig.getPlayers(),configFile , gameConfig.getTlimit(), gameConfig.getLimit()));
 		}
 		else {
 			if(gameConfig.getGameType().equals("PointGame")) {
 				//LoadGamePanel + new PointGame(infos)
-				this.loadGame(new PointGame(gameConfig.getPlayers(),configFile , gameConfig.getLimit()));
+				this.loadGame(new PointGame(gameConfig.getPlayers(),configFile , gameConfig.getTlimit(), gameConfig.getLimit()));
 			}
 		}
 	}
 
 	private void updateButtonSubmit() {
 		game.setSubmited();
+		game.getSablier().setFinished();
 		try {
 			Thread.sleep(50);
 		} catch (InterruptedException e) {

@@ -3,9 +3,9 @@ package boggle.game.model;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Observable;
 import java.util.Properties;
 
-import boggle.game.entity.Human;
 import boggle.game.entity.Player;
 import boggle.words.Dice;
 import boggle.words.DiceGrid;
@@ -16,8 +16,9 @@ import boggle.words.LexicalTree;
  * @author leleuj ferrot
  *
  */
-public abstract class Game implements Runnable {
+public abstract class Game extends Observable implements Runnable {
 	private int round;
+	private int timeLimit;
 	private Player[] players;
 	private Player currentPlayer;
 	private DiceGrid grid;
@@ -27,9 +28,12 @@ public abstract class Game implements Runnable {
 	private String gridPath;
 	private String treePath;
 	private boolean submited;
+	private Sablier sablier;
 
-	Game(Player[] players, File config) {
+	Game(Player[] players, File config, int timeLimit) {
+		sablier = new Sablier();
 		this.round = 0;
+		this.timeLimit = timeLimit;
 		this.players = players;
 		loadConfigs(config);
 		if(!launch())
@@ -97,6 +101,8 @@ public abstract class Game implements Runnable {
 	}
 
 	public void run() {
+		Thread t = new Thread(sablier);
+		t.start();
 		while(!isFinished()) {
 			this.round++;
 			for(int i = 0; i < players.length; i++) {
@@ -117,11 +123,12 @@ public abstract class Game implements Runnable {
 					System.out.println();
 				}
 				// FIN A SUPPRIMER ---------------------------
-
+				sablier.setTimeLeft(timeLimit);
 				//Actions joueur
 				while(!isSubmited()) {
 					System.out.print("");
 				}
+				sablier.setFinished();
 				//Fin du tour
 				endTurn();
 
@@ -194,6 +201,10 @@ public abstract class Game implements Runnable {
 
 	public Player getCurrentPlayer() {
 		return currentPlayer;
+	}
+
+	public Sablier getSablier() {
+		return sablier;
 	}
 
 	//-------------------------------------------

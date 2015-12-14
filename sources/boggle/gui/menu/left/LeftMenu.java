@@ -50,8 +50,6 @@ public class LeftMenu extends JPanel{
 		panelPlayersGameSettings.add(gameSettingsMenu);
 		this.add(panelPlayersGameSettings, gbc);
 		
-		//TODO : Manque le fichier de config !! 
-		
 		
 		//Panel Button:
 		gbc.gridy++;

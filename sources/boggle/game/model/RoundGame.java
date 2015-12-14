@@ -13,8 +13,8 @@ public class RoundGame extends Game {
 
 	private final int MAX_ROUNDS;
 	
-	public RoundGame(Player[] players, File config, int maxRounds) {
-		super(players, config);
+	public RoundGame(Player[] players, File config, int timeLimit, int maxRounds) {
+		super(players, config, timeLimit);
 		MAX_ROUNDS = maxRounds;
 	}
 
