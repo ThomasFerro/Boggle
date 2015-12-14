@@ -34,10 +34,6 @@ public class RightPanel extends JPanel {
 		return wordPanel;
 	}
 
-	public void setWordPanel(WordPanel wordPanel) {
-		this.wordPanel = wordPanel;
-	}
-
 	public JPanel getPanelSubmit() {
 		return panelSubmit;
 	}

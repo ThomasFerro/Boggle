@@ -6,17 +6,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.Random;
 
 public class DiceGrid {
 	private Dice[][] grid;
 	private int size;
-	
-	public DiceGrid(int size) {
-		this.size = size;
-		grid = new Dice[size][size];
-	}
 	
 	public DiceGrid(int size, String path) {
 		this.size = size;
