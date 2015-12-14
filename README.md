@@ -8,6 +8,7 @@
 - [x] Interface User-Friendly en Swing.
 - [x] Multi-joueur en local (choix du pseudo avant début de la partie).
 - [x] Règles personnalisables (cf [partie II.2](#ii2---ajout-de-règles-personnalisées)).
+- [x] Gestion de la fin du tour par un sablier.
 - [x] Mémorisation des cinque meilleurs scores.
 
 ### I - Compilation des sources et exécution du programme en version 1
@@ -122,6 +123,5 @@ De plus, nous avons pu mettre en application les notions de décomposition du co
 
 Nous avons de nombreuses pistes d'amélioration à explorer pour ce projet, voici quelques exemple :
 - [ ] Conception d'une intelligence artificielle à plusieurs niveaux.
-- [ ] Mise en place d'un sablier régulant la fin des tours.
 - [ ] Possibilité de proposer des mots en les tappant en plus de pouvoir directement cliquer sur les dés.
 - [ ] Mise en place d'une aide contextuelle qui, à partir de trois lettres inscrites, affiche en surbrillance les lettres succeptibles de faire une mot plus grand.
