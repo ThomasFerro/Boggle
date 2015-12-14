@@ -10,8 +10,7 @@
 - [x] Règles personnalisables (cf [partie II.2](#ii2---ajout-de-règles-personnalisées)).
 - [x] Mémorisation des cinque meilleurs scores.
 
-### I - Compilation des sources et exécution du programme
-TODO: Décrire procédure de compilation et d'éxecution
+### I - Compilation des sources et exécution du programme en version 1
 
 Une version prête à l'usage est disponible au format _.jar_ directement sur [ce Github](https://github.com/ThomasFerro/ProjetLongGL) et éxecutable avec la commande suivante, dans le même dossier que votre éxecutable :
 
@@ -19,7 +18,7 @@ Une version prête à l'usage est disponible au format _.jar_ directement sur [c
 
 Vous pouvez aussi modifier les sources vous-même et recompiler le projet grâce à la commande :
 
-` javac TODO `
+` javac -d bin/ -sourcepath sources/ sources/boggle/game/controller/GameEngine.java `
 
 Depuis le dossier sources (avec les dossier *bin*, *config*...).
 Puis l'éxécuter, toujours depuis le même dossier, avec la commande :
@@ -34,8 +33,10 @@ TODO : Ajout des captures
 
 Le lancement du jeu est prévu pour être le plus clair possible pour l'utilisateur, voici comment il se déroule :
 - Lancement de l'éxecutable (cf commande d'éxecution dans la [partie I](#i---compilation-des-sources-et-exécution-du-programme), choix des options dans le menu du jeu.
+![alt tag](https://raw.github.com/ThomasFerro/ProjetLongGL/VF1/img/BoggleMenu.png)
 - Choix du nom des joueurs depuis des popups.
 - Puis la partie se lance...
+![alt tag](https://raw.github.com/ThomasFerro/ProjetLongGL/VF1/img/BoggleJeu.png)
 
 #### II.2 - Déroulement d'une partie point de vue utilisateur
 
@@ -66,14 +67,44 @@ Vous pouvez rajouter votre règles personnalisée en suivant scrupuleusement les
 -----------------------------
 
 ### III - Documentation technique
+
+À noter que nous avons réalisé une première version, celle du rendu, comprenant le jeu fonctionnel ainsi que quelques améliorations. Cependant, nous n'avions pas assez de recul au démarrage du projet et cette première version présente un clair problème de conception, notament au niveau du respect du pattern MVC. Par manque de temps, nous avons décidé de continuer malgré tout cette première version et de développer en parallèle une seconde, avec une refonte du GameEngine et des connexions entre Modèle, Vue et Controller.
+
 #### III.1 - Génération et déroulement d'une partie point de vue technique
-TODO : Décrire déroulement de la partie
 
 La génération d'une partie se fait grâce aux paramètres passées par l'utilisateur, depuis le fichier *config* et grâce à ses choix dans le menu. On souhaite notamment savoir si la partie à générer est limitée en points ou en tours. On récupère aussi cette limite, une limite de temps pour le tour, le nombre de joueurs ainsi que le fichier de configuration.
 
 
 Une fois ces choix effectués, on affiche une popup par joueur afin qu'il inscrive son pseudo, puis la partie commence.
 
+
+À partir d'ici, on note les grosses différences entre la première et la seconde version, voici le déroulement de chaque :
+
+##### Version 2 (encore en développement)
+
+Dans la seconde, le déroulement de la partie et les connexions entre les différentes parties du modèle MVC sont plus logiques et on retire un maximum de responsabilité au GameEngine, qui reprend son rôle normal de moteur de jeu, rediriger les appels entre toutes les parties du Boggle.
+
+
+En effet, voici comment ce déroule une partie :
+- Le Launcher passe à l'affichage de l'écran de jeu et lance une nouvelle instance de jeu avec les paramètres précédemment entrées par l'appel du message **DEMARRER_PARTIE**.
+- La partie charge les configurations et se lance, après avoir créé son GameEngine (qui ici sert de moyen pour transmettre les messages entre la partie, les joueurs et la grille, et non plus à faire tout le traitement de la partie et de l'interface).
+- On entre ensuite dans la boucle de jeu, qui se termine lorsque la méthode vérifiant la fin du tour ne renverra plus *faux*.
+- Dans cette boucle, on définie le joueur courant, on secoue la grille et met à jour l'affichage puis on donne la main au joueur avec le message **DONNER_MAIN** et on attend que ce dernier la rende (ou que le sablier l'y oblige) avant de passer au joueur suivant.
+- Lorsqu'un joueur à la main, tout se passe en graphique, avec la grilles et les boutons *Add Word* et *Submit* : l'ajout des mots comme la fin du tour.
+- Une fois la main reprise par la partie, le jeu passe au joueur suivant.
+- Quand chaque joueur à joué, la partie vérifie la condition de fin de jeu et si cette dernière est atteinte, on calcule les scores et définie un gagnant. Une popup est affichée, le tableau de score mit à jour cas échéant et l'affichage est redirigé vers le menu.
+
+##### Version 1
+
+Dans la première version, le déroulement de la partie était similaire dans le fond mais le GameEngine avait plusieurs rôles qui n'étaient pas les siens. En effet, C'est lui qui contient le *main* principale et qui gère l'initialisation et la mise en place de l'interface graphique. Il est aussi *Observeur* de tous les boutons du jeu.
+
+La partie commençait donc ainsi :
+- Initialisation de l'interface du menu, affichage de ce dernier.
+- Une fois les informations entrées par l'utilisateur, chargement de la fenêtre de jeu, toujours pas le GameEngine, et ajout de tous les *Listeners*. Puis démarrage d'un **Thread** de *Game*.
+- La partie suivait ensuite le même déroulement que dans la V2, à cela près que ce n'était pas le joueur qui jouait mais bien la partie. De plus, il n'était pas question de *Messages* envoyant des signaux aux joueurs et à la grille.
+
+
+L'utilisation de l'accès concurrent par le biais d'un *Thread* nous aura posé de nombreux problèmes, notamment à l'affichage de la grille.
 
 
 #### III.2 - Remarques
@@ -91,5 +122,7 @@ De plus, nous avons pu mettre en application les notions de décomposition du co
 
 
 Nous avons de nombreuses pistes d'amélioration à explorer pour ce projet, voici quelques exemple :
-- Oui
-- Non
+- [ ] Conception d'une intelligence artificielle à plusieurs niveaux.
+- [ ] Mise en place d'un sablier régulant la fin des tours.
+- [ ] Possibilité de proposer des mots en les tappant en plus de pouvoir directement cliquer sur les dés.
+- [ ] Mise en place d'une aide contextuelle qui, à partir de trois lettres inscrites, affiche en surbrillance les lettres succeptibles de faire une mot plus grand.
