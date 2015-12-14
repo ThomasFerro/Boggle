@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import boggle.game.controller.highscore.HighscoreEditor;
 import boggle.game.entity.Human;
 import boggle.game.entity.Player;
 import boggle.words.Dice;
@@ -124,8 +125,8 @@ public abstract class Game implements Runnable {
 				}
 				//Fin du tour
 				endTurn();
-
 				System.out.println("Player :"+ currentPlayer.getName() +"; Score :" +currentPlayer.getScore()+"\n");
+				highscoreUpdate(players, round);
 			}
 		}
 	}
@@ -157,6 +158,19 @@ public abstract class Game implements Runnable {
 			}
 		}	
 		return 0;
+	}
+	
+	public void highscoreUpdate(Player[] players, int round) {
+		try {
+			HighscoreEditor h = new HighscoreEditor("config/Highscore");
+			for (Player p : players) {
+				if (p instanceof Human) {
+					h.insertAndSort((Human)p, round);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean isSubmited() {
