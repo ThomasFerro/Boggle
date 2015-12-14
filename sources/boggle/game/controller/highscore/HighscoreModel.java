@@ -7,15 +7,15 @@ import javax.swing.table.AbstractTableModel;
 
 public class HighscoreModel extends AbstractTableModel{
 
-	private String[] columnNames = {"Nickname", "Rounds", "Points"};
+	private String[] columnNames = {"Nickname", "Points", "Rounds"};
 	private Object[][] data;
 
 	public HighscoreModel(File hs) {
 		data = new Object[11][getColumnCount()];
 		//Header:
 		data[0][0] = "Nickname";
-		data[0][1] = "Rounds";
-		data[0][2] = "Points";
+		data[0][1] = "Points";
+		data[0][2] = "Rounds";
 		
 		Scanner sc = null;
 		String[] ligne;

@@ -3,9 +3,14 @@ package boggle.game.model;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Properties;
 
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+
+import boggle.game.controller.highscore.HighscoreEditor;
+import boggle.game.entity.Human;
 import boggle.game.entity.Player;
 import boggle.words.Dice;
 import boggle.words.DiceGrid;
@@ -55,7 +60,7 @@ public abstract class Game extends Observable implements Runnable {
 			pointGrid = new int[tab.length];
 			for(int i = 0; i < tab.length; i++) 
 				pointGrid[i] = Integer.parseInt(tab[i]);
-			
+
 
 			//Des :
 			try {
@@ -110,10 +115,10 @@ public abstract class Game extends Observable implements Runnable {
 				currentPlayer = players[i];
 				currentPlayer.getWords().clear();
 				submited = false;
-				
+
 				//Shake de la grille:
 				grid.shake();
-				
+
 				//A SUPPRIMER --------------------------------
 				Dice[][] lgrid = grid.getGrid();
 				for (int j = 0; j < lgrid.length; j ++) {
@@ -135,13 +140,35 @@ public abstract class Game extends Observable implements Runnable {
 				System.out.println("Player :"+ currentPlayer.getName() +"; Score :" +currentPlayer.getScore()+"\n");
 			}
 		}
+		highscoreUpdate(players, round);
+		endGame();
+	}
+	
+	protected void endGame() { 
+		//Boucle pour trouver le/les gagnants. Notifie le GameEngine.
+		ArrayList<Player> joueurs = new ArrayList<Player>();
+		int bestScore = 0;
+		for(Player p : players) {
+			if(p.getScore() > bestScore) {
+				joueurs.clear();
+				joueurs.add(p);
+				bestScore = p.getScore();
+			}
+			else {
+				if(p.getScore() == bestScore) {
+					joueurs.add(p);
+				}
+			}
+		}
+		setChanged();
+		notifyObservers(joueurs);
 	}
 
 	protected void endTurn() {
 		//Pour chaque mot de la liste
 		for(String word : currentPlayer.getWords()) {
 			//Vérifier la validité du mot :
-			if(tree.contains(word)) {
+			if(!word.equals("") && tree.contains(word)) {
 				//Vérifier la valeur puis ajouter au score du joueur
 				currentPlayer.setScore(currentPlayer.getScore()+checkScore(word));
 			}
@@ -150,11 +177,11 @@ public abstract class Game extends Observable implements Runnable {
 
 	private int checkScore(String word) {
 		int sizeTab = pointGrid.length;
-		
+
 		//On ne donne pas de point si le mot est plus petit que la taille minimum
 		//Si le mot est plus grand que le maximum de lettres, donner le maximum de points
 		//Sinon, on donne le nombre de points correspondants
-		
+
 		if(word.length() >= minSize) {
 			if(word.length() >= sizeTab) 
 				return pointGrid[sizeTab-1];
@@ -162,11 +189,24 @@ public abstract class Game extends Observable implements Runnable {
 		}	
 		return 0;
 	}
-	
+
+	public void highscoreUpdate(Player[] players, int round) {
+		try {
+			HighscoreEditor h = new HighscoreEditor("config/Highscore");
+			for (Player p : players) {
+				if (p instanceof Human) {
+					h.insertAndSort((Human)p, round);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public boolean isSubmited() {
 		return submited;
 	}
-	
+
 	public void setSubmited() {
 		submited = true;
 	}

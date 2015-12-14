@@ -1,8 +1,11 @@
 package boggle.game.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JOptionPane;
 
 import boggle.game.controller.gameConfig.GameConfig;
 import boggle.game.controller.listener.buttonListener.ButtonAddWordListener;
@@ -12,6 +15,7 @@ import boggle.game.controller.listener.buttonListener.ButtonConfigListener;
 import boggle.game.controller.listener.buttonListener.ButtonDiceListener;
 import boggle.game.controller.listener.buttonListener.ButtonPlayListener;
 import boggle.game.controller.listener.buttonListener.ButtonSubmitListener;
+import boggle.game.entity.Player;
 import boggle.game.model.Game;
 import boggle.game.model.PointGame;
 import boggle.game.model.RoundGame;
@@ -53,6 +57,8 @@ public class GameEngine implements Observer {
 		window.getGamePanel().getCenterPanel().getCenterPanel().getWordTextField().setEditable(false);
 		
 		this.game = game;
+		this.game.deleteObservers();
+		this.game.addObserver(this);
 		this.game.getSablier().addObserver(this);
 		gameThread = new Thread(this.game);
 		gameThread.start();
@@ -106,6 +112,19 @@ public class GameEngine implements Observer {
 			if((int)obj == 0)
 				this.updateButtonSubmit();
 		}
+		else if (obs instanceof Game) {
+			endGame((ArrayList<Player>)obj);
+		}
+	}
+	
+	private void endGame(ArrayList<Player> players) {
+		String text = "GAGNANT(S): ";
+		for(Player p : players) {
+			text += p.getName() + ": " + p.getScore() + "; ";
+		}
+		System.out.println(text);
+		JOptionPane dialogWinner = new JOptionPane();
+		dialogWinner.showMessageDialog(null, text, "GAGNANT(S)", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	private void updateTimer(int t) {
