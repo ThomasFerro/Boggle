@@ -12,14 +12,25 @@ import boggle.game.entity.Human;
 import boggle.game.entity.Player;
 import boggle.gui.menu.left.LeftMenu;
 
+/**
+ * The "PlayButton" listener, manage the "onclick" event.
+ * @author ferrot leleuj
+ */
 public class ButtonPlayListener extends Observable implements ActionListener {
 	private LeftMenu leftMenu;
 	
+	/**
+	 * Add the observer, the game engine.
+	 * @param engine
+	 */
 	public ButtonPlayListener(LeftMenu leftMenu, GameEngine engine) {
 		this.leftMenu = leftMenu;
 		addObserver(engine);
 	}
 	
+	/**
+	 * Send the notification to the observer on click. Sending the entire game settings.
+	 */
 	public void actionPerformed(ActionEvent arg0) {
 		//Création des joueurs:
 		int nbHuman = (int)leftMenu.getPlayersMenu().getSpinnerHuman().getValue();

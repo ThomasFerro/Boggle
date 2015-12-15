@@ -10,18 +10,27 @@ import javax.swing.JFileChooser;
 import boggle.game.controller.GameEngine;
 import boggle.gui.menu.left.LeftMenu;
 
+/**
+ * The "ConfigButton" listener, manage the "onclick" event.
+ * @author ferrot leleuj
+ */
 public class ButtonConfigListener extends Observable implements ActionListener{
 	private LeftMenu leftMenu;
 	private JFileChooser fileChooser;
-	private GameEngine engine;
 	
+	/**
+	 * Add the observer, the game engine.
+	 * @param engine
+	 */
 	public ButtonConfigListener(LeftMenu leftMenu, GameEngine engine) {
 		this.leftMenu = leftMenu;
-		this.engine = engine;
 		addObserver(engine);
 		fileChooser = new JFileChooser();
 	}
 
+	/**
+	 * Send the notification to the observer on click.
+	 */
 	public void actionPerformed(ActionEvent arg0) {
 		fileChooser.setCurrentDirectory(new File("config"));
 		//Check if there is a file selected:

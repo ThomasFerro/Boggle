@@ -17,9 +17,8 @@ import boggle.words.DiceGrid;
 import boggle.words.LexicalTree;
 
 /**
- * 
+ * The game class, run by the engine.
  * @author leleuj ferrot
- *
  */
 public abstract class Game extends Observable implements Runnable {
 	private int round;
@@ -35,7 +34,13 @@ public abstract class Game extends Observable implements Runnable {
 	private boolean submited;
 	private Sablier sablier;
 
-	Game(Player[] players, File config, int timeLimit) {
+	/**
+	 * Initialize the timer, the players and the time limit.
+	 * @param players The player array.
+	 * @param config The configuration file.
+	 * @param timeLimit The time limit.
+	 */
+	public Game(Player[] players, File config, int timeLimit) {
 		sablier = new Sablier();
 		this.round = 0;
 		this.timeLimit = timeLimit;
@@ -105,6 +110,9 @@ public abstract class Game extends Observable implements Runnable {
 		return true;
 	}
 
+	/**
+	 * Start a timer's thread then run the game.
+	 */
 	public void run() {
 		Thread t = new Thread(sablier);
 		t.start();
@@ -190,6 +198,11 @@ public abstract class Game extends Observable implements Runnable {
 		return 0;
 	}
 
+	/**
+	 * Update the highscore.
+	 * @param players
+	 * @param round
+	 */
 	public void highscoreUpdate(Player[] players, int round) {
 		try {
 			HighscoreEditor h = new HighscoreEditor("config/Highscore");
@@ -203,10 +216,13 @@ public abstract class Game extends Observable implements Runnable {
 		}
 	}
 
-	public boolean isSubmited() {
+	private boolean isSubmited() {
 		return submited;
 	}
 
+	/**
+	 * Set the player's state to "Submited", finishing the turn.
+	 */
 	public void setSubmited() {
 		submited = true;
 	}

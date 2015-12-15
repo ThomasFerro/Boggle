@@ -10,11 +10,19 @@ import java.io.IOException;
 
 import boggle.game.entity.Human;
 
+/**
+ * Class used to update the Highscore file.
+ * @author ferrot leleuj
+ */
 public class HighscoreEditor {
 	
 	private final String PATH;
 	private String[][] scores; 
 	
+	/**
+	 * Initialize the array and the path.
+	 * @param path The file path.
+	 */
 	public HighscoreEditor(String path) {
 		PATH = path;
 		scores = new String[10][3];
@@ -25,6 +33,10 @@ public class HighscoreEditor {
 		}
 	}
 	
+	/**
+	 * Read the file and fill the array with it.
+	 * @throws IOException
+	 */
 	public void readHighscore() throws IOException {
 		File highscore = new File(PATH);
 		if (!highscore.exists()) {
@@ -46,6 +58,9 @@ public class HighscoreEditor {
 		file.close();
 	}
 	
+	/**
+	 * Sort the highscore array.
+	 */
 	public void sort() {
 		for (int i = 0; i < scores.length; i ++) {
 			for (int j = i; j < scores.length; j ++) {
@@ -56,12 +71,22 @@ public class HighscoreEditor {
 		}
 	}
 
+	/**
+	 * Swap the two players in parameters.
+	 * @param i The first player to swap.
+	 * @param i2 The second player so swap.
+	 */
 	public void swap(int i, int i2) {
 		String[] tmp = scores[i];
 		scores[i] = scores[i2];
 		scores[i2] = tmp;
 	}
 
+	/**
+	 * Insert a player in the highscore array.
+	 * @param p The player to insert.
+	 * @param rounds Number of rounds played.
+	 */
 	public void insert(Human p, int rounds) {
 		int i = 0;
 		int score = p.getScore();
@@ -78,6 +103,9 @@ public class HighscoreEditor {
 		}
 	}
 	
+	/**
+	 * Insert the array into the file.
+	 */
 	public void writeHighscore() {
 		try {
 			File highscore = new File(PATH);
@@ -100,6 +128,12 @@ public class HighscoreEditor {
 		}
 	}
 	
+	/**
+	 * Insert and sort an entry into the array.
+	 * @param h The Human to insert then sort.
+	 * @param rounds Number of rounds played.
+	 * @throws IOException
+	 */
 	public void insertAndSort(Human h, int rounds) throws IOException {
 		readHighscore();
 		sort();
@@ -117,20 +151,5 @@ public class HighscoreEditor {
 			str += "\n";
 		}
 		return str;
-	}
-	
-	public static void main(String[] args) {
-		HighscoreEditor h = new HighscoreEditor("config/Highscore");
-		try {
-			h.readHighscore();
-			h.sort();
-			System.out.println(h);
-			Human p = new Human("Joseph");
-			p.setScore(3);
-			h.insert(p, 3);
-			h.writeHighscore();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }

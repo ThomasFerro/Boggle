@@ -5,11 +5,20 @@ import java.util.Scanner;
 
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * Table model used in the menu panel
+ * @author ferrot leleuj
+ *
+ */
 public class HighscoreModel extends AbstractTableModel{
 
 	private String[] columnNames = {"Nickname", "Points", "Rounds"};
 	private Object[][] data;
 
+	/**
+	 * Initialize the array with the file's data.
+	 * @param hs The Highscore file.
+	 */
 	public HighscoreModel(File hs) {
 		data = new Object[11][getColumnCount()];
 		//Header:
@@ -42,17 +51,23 @@ public class HighscoreModel extends AbstractTableModel{
 		}
 	}
 
-	@Override
+	/**
+	 * Return the column count.
+	 */
 	public int getColumnCount() {
 		return columnNames.length;
 	}
 
-	@Override
+	/**
+	 * Return the row count.
+	 */
 	public int getRowCount() {
 		return data.length;
 	}
 
-	@Override
+	/**
+	 * Return the value at the specified position.
+	 */
 	public Object getValueAt(int x, int y) {
 		return data[x][y];
 	}

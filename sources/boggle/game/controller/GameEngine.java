@@ -24,6 +24,10 @@ import boggle.gui.gameView.centerPanel.centerPanel.DiceButton;
 import boggle.gui.window.Window;
 import boggle.words.Dice;
 
+/**
+ * Main class of the game, the controller that take care of the interface and the game instance.
+ * @author ferrot leleuj
+ */
 public class GameEngine implements Observer {
 	private Window window;
 	private Game game;
@@ -32,6 +36,9 @@ public class GameEngine implements Observer {
 	private String motCourant;
 	private int timer;
 
+	/**
+	 * 
+	 */
 	public GameEngine() {
 		motCourant = "";
 		timer = 0;
@@ -39,6 +46,9 @@ public class GameEngine implements Observer {
 		configFile = new File("config/regles-4x4.config");
 	}
 
+	/**
+	 * Load and show the menu.
+	 */
 	public void loadMenu() {
 		//Load the Menu page and add the actionListeners
 		window.loadMenu();
@@ -46,6 +56,10 @@ public class GameEngine implements Observer {
 		window.getMenu().getLeftMenu().getButtonConfig().addActionListener(new ButtonConfigListener(window.getMenu().getLeftMenu(), this));
 	}
 
+	/**
+	 * Load the game, start a thread and show the game panel.
+	 * @param game
+	 */
 	public void loadGame(Game game) {
 		if (gameThread != null)
 			gameThread.interrupt();
@@ -81,6 +95,11 @@ public class GameEngine implements Observer {
 		}
 	}
 
+	/**
+	 * Recast the Observer and redirect the notification to the right method.
+	 * @param Obs : The observer that send the notification.
+	 * @param Obj (optional): The object of this notification. 
+	 */
 	public void update(Observable obs, Object obj) {
 		if(obs instanceof ButtonConfigListener) {
 			//Change the configFile
@@ -146,7 +165,7 @@ public class GameEngine implements Observer {
 		motCourant = "";
 	}
 	
-	public void updateButtonClear() {
+	private void updateButtonClear() {
 		motCourant = "";
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getWordTextField().setText(motCourant);
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().resetGrid();
@@ -208,6 +227,10 @@ public class GameEngine implements Observer {
 		}
 	}
 	
+	/**
+	 * Main method of the game, load the engine and the menu.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		GameEngine engine = new GameEngine();
 		//Lancement du jeu, chargement du menu puis de la partie
