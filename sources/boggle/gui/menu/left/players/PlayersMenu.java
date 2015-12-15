@@ -33,7 +33,7 @@ public class PlayersMenu extends JPanel{
 		JPanel panelHuman = new JPanel();
 		panelHuman.setLayout(new FlowLayout());
 		panelHuman.add(new JLabel("Human :"));
-		spinnerHuman = new JSpinner(new SpinnerNumberModel(1, 0, 5, 1));
+		spinnerHuman = new JSpinner(new SpinnerNumberModel(1, 1, 5, 1));
 		panelHuman.add(spinnerHuman);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
