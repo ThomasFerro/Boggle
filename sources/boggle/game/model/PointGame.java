@@ -1,6 +1,8 @@
-package boggle.game;
+package boggle.game.model;
 
 import java.io.File;
+
+import boggle.game.entity.Player;
 
 /**
  * 
@@ -11,10 +13,9 @@ public class PointGame extends Game {
 	
 	private final int MAX_POINTS;
 
-	PointGame(Player[] players, File config, int maxPoints) {
-		super(players, config);
+	public PointGame(Player[] players, File config, int timeLimit, int maxPoints) {
+		super(players, config, timeLimit);
 		MAX_POINTS = maxPoints;
-		super.run();
 	}
 
 	@Override
@@ -25,7 +26,4 @@ public class PointGame extends Game {
 		}
 		return false;
 	}
-	
-	
-
 }
