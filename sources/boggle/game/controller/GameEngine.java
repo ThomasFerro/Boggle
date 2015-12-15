@@ -134,10 +134,12 @@ public class GameEngine implements Observer {
 	}
 	
 	private void updateButtonAddWord() {
-		game.getCurrentPlayer().addWord(motCourant);
-		this.window.getGamePanel().getCenterPanel().getRightPanel().getWordPanel().add(motCourant);
-		this.window.getGamePanel().getCenterPanel().getRightPanel().getWordPanel().update();
-		this.window.getGamePanel().getCenterPanel().getCenterPanel().getWordTextField().setText(motCourant);
+		if(!game.getCurrentPlayer().getWords().contains(motCourant)) {
+			game.getCurrentPlayer().addWord(motCourant);
+			this.window.getGamePanel().getCenterPanel().getRightPanel().getWordPanel().add(motCourant);
+			this.window.getGamePanel().getCenterPanel().getRightPanel().getWordPanel().update();
+			this.window.getGamePanel().getCenterPanel().getCenterPanel().getWordTextField().setText(motCourant);
+		}
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().resetGrid();
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().repaint();
 		this.window.getGamePanel().getCenterPanel().getCenterPanel().getGridView().revalidate();

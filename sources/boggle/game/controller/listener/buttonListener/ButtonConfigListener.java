@@ -18,7 +18,7 @@ public class ButtonConfigListener extends Observable implements ActionListener{
 	public ButtonConfigListener(LeftMenu leftMenu, GameEngine engine) {
 		this.leftMenu = leftMenu;
 		this.engine = engine;
-		//addObserver(engine);
+		addObserver(engine);
 		fileChooser = new JFileChooser();
 	}
 
