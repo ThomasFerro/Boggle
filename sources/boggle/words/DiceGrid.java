@@ -8,21 +8,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * The DiceGrid represent the game's grid model
+ * @author leleuj
+ *
+ */
 public class DiceGrid {
-	private Dice[][] grid;
-	private int size;
-	
+	private Dice[][] grid;		//Array of dices
+	private int size;			//Array's size, knowing that dice's grid is an (n^2) array
+
+	/**
+	 * Create an empty dice grid
+	 * @param size the dice's grid size
+	 * @param path the csv path
+	 */
 	public DiceGrid(int size, String path) {
 		this.size = size;
 		grid = new Dice[size][size];
 		init(path);
 	}
 	
+	/**
+	 * Read a CSV to create dices and shake the grid
+	 * @param path the CSV path
+	 */
 	public void init(String path) {
 		readCSV(path);
 		shake();
 	}
 	
+	/**
+	 * Initialize the grid from a CSV
+	 * @param path the CSV path
+	 */
 	public void readCSV(String path) {
 		try {
 			BufferedReader file = new BufferedReader(new FileReader(path));
@@ -43,6 +61,9 @@ public class DiceGrid {
 		}
 	}
 	
+	/**
+	 * Shake the dice and switch dice each other
+	 */
 	public void shake() {
 		List<Dice> dices = new ArrayList<Dice>();
 		for (int i = 0; i < grid.length; i++) {
@@ -65,6 +86,12 @@ public class DiceGrid {
 		}
 	}
 	
+	/**
+	 * Lock all dices except those around the dice in parameter
+	 * @param x x position dice
+	 * @param y y position dice
+	 * @return boolean <code>true</code> if succeed, else <code>false</code>
+	 */
 	public boolean lock(int x, int y) {
 		getDice(x,y).setUsed(true);
 		if (x < grid[0].length && y < grid.length) {
@@ -80,6 +107,9 @@ public class DiceGrid {
 		return false;
 	}
 	
+	/**
+	 * Unlock all dices
+	 */
 	public void unlock() {
 		for (int i = 0; i < grid.length; i ++) { // x
 			for (int j = 0; j < grid[i].length; j++) { // y 
@@ -98,7 +128,7 @@ public class DiceGrid {
 		}
 		return null;
 	}
-	
+	 
 	public String toString() {
 		String str = "";
 		for (int i = 0; i < grid.length; i++) {
